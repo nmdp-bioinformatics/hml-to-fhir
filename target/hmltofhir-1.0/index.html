@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="javascript/resource.js" ></script>
+
+  <head>
+    <title>HML to FHIR</title>
+    <!-- Viewport makes everything resizeable and nice. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap makes the webpage look nice-ish so I don't have to. -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Font Awesome Icons for the validation checkmark. -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <style>
+body {font-family: "Lato", sans-serif;}
+
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+    
+        </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      
+
+      <ul class="tab">
+  <li><a  class="tablinks" onclick="openAction(event, 'Post')">Post</a></li>
+  <li><a  class="tablinks" onclick="openAction(event, 'Get')">Get</a></li>
+  <!--<li><a  class="tablinks" onclick="openAction(event, 'Update')">Update</a></li>-->
+	</ul>
+	<script>
+function openAction(evt,action) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(action).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+</div>
+     <!--  Each of these will be like a page having their own text boxes and buttons and such to go to the javascript --> 
+      <div id="Post" class="tabcontent">
+      <br/>
+  <h3>Fill out all forms</h3>
+  <br>Patient Family Name: <textarea id="patientFamilyName" class="PatientData" rows ="1"></textarea>
+  <br>Patient Given  Name: <textarea id="patientGivenName" class="PatientData" rows ="1"></textarea>
+  <!-- when sent to java make [2] all lowercase -->
+  <br>Patient Gender(male, female, other, unknown): <textarea id="patientGender" class="PatientData" rows ="1"></textarea>
+  <br>Patient Birthdate (yyyy-MM-dd): <textarea id="patientDate" class="PatientData" rows ="1"></textarea>
+  <!-- Have them make the uuid or random generated? If random generated can cause less abguiity when getting via id  with age of EMR makes it easier-->
+  <!--<br>Patient ID: <textarea id="patientID" class="PatientData" rows ="1"></textarea>-->
+  <h4> Please Validate your HML on http://www.miring.b12x.org before submitting </h4>
+  <h4>Enter your HML here</h4>
+  <br> <textarea id="patientHML" class="PatientData" rows="15" cols="200"></textarea>
+  <!-- Add a post button here to call script that will alert user of id number and that it was successful -->
+  <button class='btn btn-primary' onclick="javascript:Post();">POST</button>
+  
+  <br/>
+  
+</div>
+<br/>
+<div id="Get" class="tabcontent">
+  <h3>Enter the ID of the patient you are looking up</h3>
+  Patient ID number <textarea id="patientIDGET" class="GetData" rows ="1"></textarea>
+  <!-- Add a Get button here to somehow reveal a bigger text area with the results or an alert saying id doesnt exist and to call someone -->
+  <button class='btn btn-primary' onclick="javascript:Get();"> GET</button>
+  <p id="textonly"></p>
+ <textarea cols = '50' rows = '20' name='text' id='resultsText' class='form-control' style='resize:vertical' ></textarea>
+ <button class='btn btn-primary' onclick="javascript:Put();"> UPDATE </button>
+  <br/>
+</div>
+<!--<br/>
+<div id="Update" class="tabcontent">
+  <h3>Enter the ID of the patient you want to update</h3>
+  Patient ID number <textarea id="patientIDPOST" class="GetData" rows ="1"></textarea>
+  <button class='btn btn-primary' onclick="javascript:Get();"> GET</button>
+  <p id="text"></p>
+  <textarea cols = '50' rows = '20' name='text' id='result' class='form-control' style='resize:vertical' ></textarea>
+
+
+  <!-- Add a Get button here to somehow reveal a bigger text area with a editable results or an alert saying id doesnt exist and to call someone if this is a mistake -->
+  <!-- Add a Update button here after the reveal irregardless if there is a change or not submit the update.  -->
+ 
+  <br/>
+</div>
+
+
+    
+  </body>
+
+</html>

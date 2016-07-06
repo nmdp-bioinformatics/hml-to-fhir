@@ -1,0 +1,4 @@
+org/nmdp/hmltofhir/Client.class
+org/nmdp/hmltofhir/Get.class
+org/nmdp/hmltofhir/Postresource.class
+org/nmdp/hmltofhir/Put.class
