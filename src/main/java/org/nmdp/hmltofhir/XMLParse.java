@@ -1,3 +1,5 @@
+package org.nmdp.hmltofhir;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -5,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
+
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,13 +32,13 @@ public class XMLParse {
 		this.xml = xml;
 	}
 
-	public ResourceManager[] grab() {
+	public void grab() {
 		System.out.println("Getting addtional resources from HML");
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		try {
 			builder = factory.newDocumentBuilder();
-			Document template = builder.parse(new InputSource(new StringReader(xmlToString("location to resource"))));
+            Document template = builder.parse(new InputSource(new StringReader(xmlToString("/org/nmdp/ResourceName.xml"))));
 			resourceTemplate = template;
 			Document xmlDOM = builder.parse(new InputSource(new StringReader(xml)));
 			sendResources(xmlDOM);
@@ -43,22 +46,29 @@ public class XMLParse {
 		} catch (Exception e) {
 			System.out.println("Error in handle Grabbing" + e);
 		}
-		return null;
+		//return null;
 	}
 
 	private void sendResources(Document xmlDOM) {
-		NodeList resourceList = resourceTemplate.getElementsByTagName("transfer");
-		NodeList xmlAttributes = xmlDOM.getElementsByTagName("*");
+		NodeList resourceList = resourceTemplate.getElementsByTagName("resourceName");
+		NodeList xmlAttributes = xmlDOM.getElementsByTagName("*");//Gets All nodes
+		System.out.println(xmlAttributes.getLength());
 		for (int j = 0; j < xmlAttributes.getLength(); j++) {
 			NamedNodeMap xmlAttribute = xmlAttributes.item(j).getAttributes();
+            
 			for (int h = 0; h < xmlAttribute.getLength(); h++) {
 
 				for (int i = 0; i < resourceList.getLength(); i++) {
-					NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();
-		
-					if (xmlAttribute.item(h).toString().equals(getAttribute(resourceAttribute, "attribute"))) {
-						ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
+					NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
+					
+					if (xmlAttribute.item(h).toString().equals(getAttribute(resourceAttribute, "attribute"))) {// If Attribute matches a resource
+                    Resource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
 					}
+                    else if(xmlAttributes.item(j).toString.equals(getAttribute(resourceAttribute,"attribute"))){//If a Node text content matches a resource
+                        ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttributes.item(h).getTextContent());
+
+                    }
+                    
 
 				}
 			}
@@ -67,9 +77,10 @@ public class XMLParse {
 	}
 
 	private String xmlToString(String string) {
-		File file = new File(string);
-		BufferedReader xmlReader;
+
 		try {
+            File file = new File(Postresource.class.getResource(string).getFile());
+            BufferedReader xmlReader;
 			xmlReader = new BufferedReader(new FileReader(file));
 			StringBuilder xmlBuffer = new StringBuilder();
 			String line = xmlReader.readLine();

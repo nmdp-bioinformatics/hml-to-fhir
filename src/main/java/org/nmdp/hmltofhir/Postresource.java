@@ -15,6 +15,8 @@ import ca.uhn.fhir.rest.client.IGenericClient;
 public class Postresource {
     
     
+    
+
     private String patientFamilyName;
     private String patientGivenName;
     private String patientGender;
@@ -27,7 +29,6 @@ public class Postresource {
         this.patientGivenName=data[1];
         this.patientGender=data[2].toUpperCase();
         this.patientBirth=data[3];
-        //this.patientID=data[4];
         this.patientID=UUID.randomUUID().toString();
         this.xml=data[4];
         
@@ -37,7 +38,6 @@ public class Postresource {
         FhirContext ctx = FhirContext.forDstu2();
         //serverbase=server url
         IGenericClient client = ctx.newRestfulGenericClient("http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2");
-        System.out.println("Conneted to Server");
         Patient patient = new Patient();
         patient.addIdentifier().setValue(patientID);
         patient.addName().addFamily(patientFamilyName).addGiven(patientGivenName);
@@ -57,22 +57,44 @@ public class Postresource {
         {
             patient.setGender(AdministrativeGenderEnum.OTHER);
         }
+        else{}
+        
+        //Not working skip for now String->DateDt
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date undate = df.parse(patientBirth);
             String date=df.format(undate);
             DateDt formatDate = new DateDt(date);
             patient.setBirthDate(formatDate);
+            
         } catch (Exception e) {
-
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        //is it bad practice to set all ID's with the same ID? If its univerisally unique why not right?
+       // patient.setId(new IdDt(patientID));
+        
+        
         Bundle bundle= new Bundle();
         bundle.setType(BundleTypeEnum.TRANSACTION);
         System.out.println("Send Resources");
-         System.out.println("Patient Created");
         bundle.addEntry().setFullUrl(patient.getId().getValue()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerbEnum.POST);
-        client.transaction().withBundle(bundle).execute();
+        
+        // Send in resource template
+        XMLParse parse = new XMLParse(xml);
+        System.out.print("Parsing XML");
+        parse.grab();
+        ResourceManager resource= new ResourceManager();
+        //Hopefully someone gets this reference
+        System.out.println("Constructing additional Resources");
+        //Make resource
+        //String placeholder=resource.getPatientStructure(0);
+        Person person;
+        //Add entries
+        //bundle.addEntry() pllus all the other stuff.
+        //.resource() will alawys be in a certain order
+        //If there is only a  finite things thats fine but if there are a lot could get messy. Not anymore!!
+        //client.transaction().withBundle(bundle);
         return patientID;
     }
     

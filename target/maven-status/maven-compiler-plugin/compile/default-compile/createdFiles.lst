@@ -1,4 +1,6 @@
 org/nmdp/hmltofhir/Client.class
+org/nmdp/hmltofhir/XMLParse.class
+org/nmdp/hmltofhir/Put.class
+org/nmdp/hmltofhir/ResourceManager.class
 org/nmdp/hmltofhir/Get.class
 org/nmdp/hmltofhir/Postresource.class
-org/nmdp/hmltofhir/Put.class

@@ -115,6 +115,73 @@ function openAction(evt,action) {
   <button class='btn btn-primary' onclick="javascript:Get();"> GET</button>
   <p id="textonly"></p>
  <textarea cols = '50' rows = '20' name='text' id='resultsText' class='form-control' style='resize:vertical' ></textarea>
+ <h5> Update Data Choose Which Resource then Structure(if there are more sub-structures an extra menu will appear) </h5>
+ <!-- After Mapping make resources in alphabetical order -->
+ <select id="resour" onchange="showForm()">
+     <option value="0">Resource</option>
+     <option value="1">Patient</option>
+     <option value="2">Sequence</option>
+ </select>
+ 
+ <div id="f1" style="display:none">
+     <form name="form1">
+         <select id="struct" onchange="showText()">
+             <option value="0">Select Option</option>
+             <option value="ooo">Option 1A</option>
+             <option value="ppp">Option 1B</option>
+         </select>
+     </form>
+ </div>
+ 
+ <div id="f2" style="display:none">
+     <form name="form2">
+         <select id="struct2" onchange="showText()">
+             <option value="0">Select Option</option>
+             <option value="resourceName">Option 2A</option>
+             <option value="resourceName">Option 2B</option>
+         </select>
+     </form>
+ </div>
+ <div id="changeText" style="display:block">
+     <textarea  cols="20" rows="1" name='textarea' id='changeTextArea' class='form-control' style='resize:vertical'></textarea>
+ </div>
+ <!--SOME STRUCTURES MIGHT HAVE SUB STRUCTURES AND NEED ANOTHER FORM MAKE SURE YOU LOOK THOSE UP I.E NAME -->
+ <script type="text/javascript">
+    
+     function showForm() {
+         var selopt = document.getElementById("resour").value;
+         if (selopt == 1) {
+             document.getElementById("f1").style.display = "block";
+             document.getElementById("f2").style.display = "none";
+         }
+         if (selopt == 2) {
+             document.getElementById("f2").style.display = "block";
+             document.getElementById("f1").style.display = "none";
+         }
+         if (selopt == 0) {
+             document.getElementById("f2").style.display = "none";
+             document.getElementById("f1").style.display = "none";
+         }
+     }
+ </script>
+ <!--<script type="text/javascript">
+     function showText() {
+         var selopt = document.getElementById("struct").value;
+         if (selopt == 0)
+         {
+             selopt = document.getElementById("struct2").value;
+         }
+         if (selopt == 0) {
+             document.getElementById("changeText").style.display = "none";
+         }
+         else{
+             document.getElementById("changeText").style.display="block";
+         }
+         selopt=0;
+     }
+ </script>
+  -->
+ <br/>
  <button class='btn btn-primary' onclick="javascript:Put();"> UPDATE </button>
   <br/>
 </div>

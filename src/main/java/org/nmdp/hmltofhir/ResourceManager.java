@@ -1,3 +1,4 @@
+package org.nmdp.hmltofhir;
 
 public class ResourceManager {
 	
@@ -23,6 +24,7 @@ public class ResourceManager {
 		 */
 		
 	}
+    // Checks if string is null if so
 	public static String isNotNull(String value)
 	{
 		return value==null? null: value;
