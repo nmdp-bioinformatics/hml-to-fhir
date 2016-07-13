@@ -1,4 +1,16 @@
 package org.nmdp.hmltofhir;
+import ca.uhn.fhir.model.primitive.IdDt;
+import ca.uhn.fhir.context.FhirContext;
+import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Bundle.BundleType;
+import org.hl7.fhir.dstu3.model.Enumerations.*;
+
+import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
+import ca.uhn.fhir.model.dstu2.valueset.BundleTypeEnum;
+import ca.uhn.fhir.model.dstu2.valueset.HTTPVerbEnum;
+import ca.uhn.fhir.model.primitive.DateDt;
+import ca.uhn.fhir.model.primitive.IdDt;
+import ca.uhn.fhir.rest.client.IGenericClient;
 
 public class Put {
 

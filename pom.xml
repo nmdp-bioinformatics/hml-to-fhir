@@ -157,7 +157,12 @@
     <dependency>
         <groupId>ca.uhn.hapi.fhir</groupId>
         <artifactId>hapi-fhir-base</artifactId>
-        <version>1.5</version>
+        <version>1.6</version>
+    </dependency>
+    <dependency>
+        <groupId>ca.uhn.hapi.fhir</groupId>
+        <artifactId>hapi-fhir-structures-dstu3</artifactId>
+        <version>1.6</version>
     </dependency>
     <dependency>
         <groupId>ca.uhn.hapi.fhir</groupId>
@@ -168,6 +173,11 @@
         <groupId>ca.uhn.hapi.fhir</groupId>
         <artifactId>hapi-fhir-structures-dstu</artifactId>
         <version>1.5</version>
+    </dependency>
+    <dependency>
+        <groupId>ca.uhn.hapi.fhir</groupId>
+        <artifactId>hapi-fhir-validation-resources-dstu3</artifactId>
+        <version>1.6</version>
     </dependency>
     <dependency>
         <groupId>com.sun.jersey</groupId>

@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.UUID;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.model.dstu2.resource.*;
-import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
-import ca.uhn.fhir.model.dstu2.valueset.BundleTypeEnum;
-import ca.uhn.fhir.model.dstu2.valueset.HTTPVerbEnum;
-import ca.uhn.fhir.model.primitive.DateDt;
+import ca.uhn.fhir.model.primitive.IdDt;
+
+import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Bundle.*;
+import org.hl7.fhir.dstu3.model.Enumerations.*;
 import ca.uhn.fhir.rest.client.IGenericClient;
 public class Postresource {
     
@@ -35,7 +35,7 @@ public class Postresource {
         //Make this string array 0-n is patient data n+1 is the xml
     }
     public String sendResources() {
-        FhirContext ctx = FhirContext.forDstu2();
+        FhirContext ctx = FhirContext.forDstu3();
         //serverbase=server url
         IGenericClient client = ctx.newRestfulGenericClient("http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2");
         Patient patient = new Patient();
@@ -43,19 +43,19 @@ public class Postresource {
         patient.addName().addFamily(patientFamilyName).addGiven(patientGivenName);
         if(patientGender.equals("MALE"))
         {
-            patient.setGender(AdministrativeGenderEnum.MALE);
+            patient.setGender(AdministrativeGender.MALE);
         }
         else if(patientGender.equals("FEMALE"))
         {
-            patient.setGender(AdministrativeGenderEnum.FEMALE);
+            patient.setGender(AdministrativeGender.FEMALE);
         }
         else if(patientGender.equals("UNKNOWN"))
         {
-            patient.setGender(AdministrativeGenderEnum.UNKNOWN);
+            patient.setGender(AdministrativeGender.UNKNOWN);
         }
         else if(patientGender.equals("OTHER"))
         {
-            patient.setGender(AdministrativeGenderEnum.OTHER);
+            patient.setGender(AdministrativeGender.OTHER);
         }
         else{}
         
@@ -63,22 +63,20 @@ public class Postresource {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date undate = df.parse(patientBirth);
-            String date=df.format(undate);
-            DateDt formatDate = new DateDt(date);
-            patient.setBirthDate(formatDate);
+            patient.setBirthDate(undate);
             
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         //is it bad practice to set all ID's with the same ID? If its univerisally unique why not right?
-       // patient.setId(new IdDt(patientID));
+        patient.setId(new IdDt(patientID));
         
         
         Bundle bundle= new Bundle();
-        bundle.setType(BundleTypeEnum.TRANSACTION);
+        bundle.setType(BundleType.TRANSACTION);
         System.out.println("Send Resources");
-        bundle.addEntry().setFullUrl(patient.getId().getValue()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerbEnum.POST);
+        bundle.addEntry().setFullUrl(patient.getId()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerb.POST);
         
         // Send in resource template
         XMLParse parse = new XMLParse(xml);
@@ -96,6 +94,6 @@ public class Postresource {
         //If there is only a  finite things thats fine but if there are a lot could get messy. Not anymore!!
         //client.transaction().withBundle(bundle);
         return patientID;
-    }
+        }
     
 }

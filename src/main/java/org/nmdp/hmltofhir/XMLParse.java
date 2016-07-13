@@ -60,11 +60,17 @@ public class XMLParse {
 
 				for (int i = 0; i < resourceList.getLength(); i++) {
 					NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
+                    //What should be in the resource XML
+                    //Node
+                    // Attribute
+                    //Resource
+                    //Structure
+                    //Lowerstructure(if none then make empty make this optional
 					
-					if (xmlAttribute.item(h).toString().equals(getAttribute(resourceAttribute, "attribute"))) {// If Attribute matches a resource
-                    Resource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
+					if (xmlAttribute.item(h).getNodeName().equals(getAttribute(resourceAttribute, "attribute")) && xmlAttributes.item(j).getNodeName().equals(getAttribute(resourceAttribute,"Node"))) {// If Attribute matches a resource
+                    ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
 					}
-                    else if(xmlAttributes.item(j).toString.equals(getAttribute(resourceAttribute,"attribute"))){//If a Node text content matches a resource
+                    else if(xmlAttributes.item(j).toString().equals(getAttribute(resourceAttribute,"attribute"))){//If a Node text content matches the needs a resource
                         ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttributes.item(h).getTextContent());
 
                     }
