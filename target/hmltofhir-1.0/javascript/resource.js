@@ -17,8 +17,7 @@ function Post()
     /// {
     // alert("Validated");
     var post = window.location.href + "transfer/toFHIR/POST";
-    var names = [document.getElementById("patientFamilyName").value,document.getElementById("patientGivenName").value,document.getElementById("patientGender").value,document.getElementById("patientDate").value//,document.getElementById("patientID").value
-                 ,xml];
+    var names = [document.getElementById("patientFamilyName").value,document.getElementById("patientGivenName").value,document.getElementById("patientGender").value,document.getElementById("patientDate").value,xml];
     if(!/([0-9]{4}-[0-9]{2}-[0-9]{2})/.test(names[3]))
     {
         alert("Date not entered properly, please enter in yyyy-MM-dd format");
@@ -105,9 +104,10 @@ function Put()
 {
     
     var put = window.location.href + "transfer/toFHIR/UPDATE/";
-    var structure = getElementById("struct").value;
+    var resource = getElementById("resour").value;
+    var structure = getElementById(getElementById("resour").value).value;
     var updateStructure=getElementById("changeTextArea").value;
-    var structureArr=[structure,updateStructure];
+    var structureArr=[resource,structure,updateStructure];
     var result = $.post(put,{structureArr:structureArr},
                         function(response)
                         {

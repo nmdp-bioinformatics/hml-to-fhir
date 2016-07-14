@@ -49,7 +49,6 @@ public class Client {
 	{
 		System.out.println("Post");
         String[] data=dataList.toArray(new String[0]);
-        System.out.println(Arrays.toString(data));
 		Postresource post = new Postresource(data);
 		String uuid=post.sendResources();
         return uuid;
@@ -68,14 +67,12 @@ public class Client {
 	@Path("/UPDATE")
     @Produces("text/plain")
 
-	public String toPUT(@FormParam("xml")  String xml)
+	public String toPUT(@FormParam("structureArr[]")  List<String> structureArr)
 	{
 		System.out.println("Post");
-		/*logger.debug("Attempting to Update");
-		//Post to screen user clicks "update"
-		//get id of everything
-		Put put = new Put(xml);
-		put.update();*/
+        String [] data=structureArr.toArray(new String[0]);
+       // Put put = new Put(data[1],data[2],data[0]);
+        //put.update();
 		return "catdog";
 	}
 }

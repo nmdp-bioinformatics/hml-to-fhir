@@ -29,8 +29,9 @@ public class ResourceManager {
 	{
 		return value==null? null: value;
 	}
-//All resource string arrays
-	//generic constructor
-	//AddResource method
-	//Check Compliant- if null make send a default thing
+    /* ToDo:
+     All resource string arrays
+     create  the position template (or or just add on to the resource template
+     Follow above 
+     String to primative data types methods*/
 }
