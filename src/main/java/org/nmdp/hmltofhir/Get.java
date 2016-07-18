@@ -36,7 +36,7 @@ public class Get {
         Bundle newbundle = client.search().forResource(Specimen.class).where(Specimen.IDENTIFIER.exactly().identifier(id)).returnBundle(Bundle.class).execute();
         
         System.out.println("Bundle Found");
-        //This is a pretty bad way of combining all the bundles. it works well since this whole thing is fairly small but ugly.
+        //After research, there is no proper way to loop through all resources.
         String fullBundle=ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle)+ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(newbundle);
         System.out.println("Bundle....bundled...sigh");
         return fullBundle;

@@ -71,7 +71,7 @@ public class XMLParse {
                     //Lowerstructure(if none then make empty make this optional
 					
 					if (xmlAttribute.item(h).getNodeName().equals(getAttribute(resourceAttribute, "attribute")) && xmlAttributes.item(j).getNodeName().equals(getAttribute(resourceAttribute,"Node"))) {// If Attribute matches a resource
-                    ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
+                        ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
 					}
                     else if(xmlAttributes.item(j).getNodeName().equals(getAttribute(resourceAttribute,"attribute"))){//If a Node text content matches the needs a resource
                         ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),getFirstLevelTextContent(xmlAttributes.item(j)));

@@ -27,7 +27,7 @@ public class ResourceManager {
     // Checks if string is null if so
 	public static String isNotNull(String value)
 	{
-		return value==null? null: value;
+		return (value==null)|| (value.equals(""))? null: value;
 	}
     /* ToDo:
      All resource string arrays

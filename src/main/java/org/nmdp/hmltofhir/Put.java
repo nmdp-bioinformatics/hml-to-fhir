@@ -26,8 +26,12 @@ public class Put {
 
 	public void update() {
         //client.read gets a resource but still need the ID
+        /* if( resource.equals(resourceName)
+         {
+         
         //set id as ("patient/"+ patientID)
-        //
+        // public void Sequence(structure, update
+         {
         //Patient ID .getID
         //.set ID
         //How each method is going to be
@@ -37,10 +41,13 @@ public class Put {
         //Sequence[position number]=updated thing
         //set id
         //String to whatever is needed write these in resource manager
+         //"Create" a new resource with structures
         //client.update().resource(sequence).execute();
+         }*/
         
 		
 	}
+    
 		
 
 }

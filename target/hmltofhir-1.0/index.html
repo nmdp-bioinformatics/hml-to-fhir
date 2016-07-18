@@ -58,6 +58,10 @@ ul.tab li a:focus, .active {
     border: 1px solid #ccc;
     border-top: none;
 }
+    form{
+        width:50 px;
+        height:20 px;
+    }
     
         </style>
   </head>
@@ -123,7 +127,7 @@ function openAction(evt,action) {
      <option value="struct">Patient</option>
      <option value="struct1">Sequence</option>
  </select>
- 
+ <!-- will there be to many forms? -->
  <div id="f1" style="display:none">
      <form name="form1">
          <select id="struct" onchange="showText()">
@@ -146,7 +150,7 @@ function openAction(evt,action) {
  <div id="changeText" style="display:block">
      <textarea  cols="20" rows="1" name='textarea' id='changeTextArea' class='form-control' style='resize:vertical'></textarea>
  </div>
- <!--SOME STRUCTURES MIGHT HAVE SUB STRUCTURES AND NEED ANOTHER FORM MAKE SURE YOU LOOK THOSE UP I.E NAME -->
+ <!--SOME STRUCTURES MIGHT HAVE SUB STRUCTURES (Non primative data-type) AND NEED ANOTHER FORM MAKE SURE YOU LOOK THOSE UP I.E NAME -->
  <script type="text/javascript">
     
      function showForm() {
@@ -155,7 +159,7 @@ function openAction(evt,action) {
              document.getElementById("f1").style.display = "block";
              document.getElementById("f2").style.display = "none";
          }
-         if (selopt == "struct2") {
+         if (selopt == "struct1") {
              document.getElementById("f2").style.display = "block";
              document.getElementById("f1").style.display = "none";
          }
@@ -165,23 +169,6 @@ function openAction(evt,action) {
          }
      }
  </script>
- <!--<script type="text/javascript">
-     function showText() {
-         var selopt = document.getElementById("struct").value;
-         if (selopt == 0)
-         {
-             selopt = document.getElementById("struct2").value;
-         }
-         if (selopt == 0) {
-             document.getElementById("changeText").style.display = "none";
-         }
-         else{
-             document.getElementById("changeText").style.display="block";
-         }
-         selopt=0;
-     }
- </script>
-  -->
  <br/>
  <button class='btn btn-primary' onclick="javascript:Put();"> UPDATE </button>
   <br/>
@@ -193,10 +180,6 @@ function openAction(evt,action) {
   <button class='btn btn-primary' onclick="javascript:Get();"> GET</button>
   <p id="text"></p>
   <textarea cols = '50' rows = '20' name='text' id='result' class='form-control' style='resize:vertical' ></textarea>
-
-
-  <!-- Add a Get button here to somehow reveal a bigger text area with a editable results or an alert saying id doesnt exist and to call someone if this is a mistake -->
-  <!-- Add a Update button here after the reveal irregardless if there is a change or not submit the update.  -->
  
   <br/>
 </div>
