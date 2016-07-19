@@ -3,6 +3,7 @@ package org.nmdp.hmltofhir;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -27,30 +28,27 @@ public class TransferService {
     @Produces("application/xml")
 	public String validate(@FormParam("xml") String xml)
 	{
-        System.out.println(xml);
         try {
             Client client = Client.create();
             
             WebResource webResource = client.resource("http://miring.b12x.org/validator/ValidateMiring/");
+        
+            //Post to validator service due to the nature of HTML forms URLEncoder.encode() decodes anything that would be a space or such into a stirng.
+            ClientResponse response = webResource.accept("application/xml").post(ClientResponse.class, "xml=" + URLEncoder.encode(xml, "UTF-8"));
+            // check response status code
+            if (response.getStatus() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+            }
             
-                                                      
-                                                      // POST method
-                                                        //Posting null for some reason.
-                                                      ClientResponse response = webResource.accept("application/xml").post(ClientResponse.class,"xml="+xml);
-                                                      // check response status code
-                                                      if (response.getStatus() != 200) {
-                                                          throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-                                                      }
-                                                      
-                                                      // display response
-                                                      String output = response.getEntity(String.class);
-                                                      System.out.println("Output from Server .... ");
-                                                      System.out.println(output + "\n");
-                                                        return output;
-                                                      } catch (Exception e) {
-                                                          e.printStackTrace();
-                                                      }
-
+            // display response
+            String output = response.getEntity(String.class);
+            System.out.println("Output from Server .... ");
+            System.out.println(output + "\n");
+            return output;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         return "Oops";
     }
 	@POST

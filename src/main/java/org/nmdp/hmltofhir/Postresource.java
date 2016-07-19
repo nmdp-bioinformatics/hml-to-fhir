@@ -79,10 +79,8 @@ public class Postresource {
         bundle.addEntry().setFullUrl(patient.getId()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerb.POST);
         
         // Send in resource template
-        XMLParse parse = new XMLParse(xml);
         System.out.print("Parsing XML");
-        parse.grab();
-        ResourceManager resource= new ResourceManager();
+        ResourceManager resource= new ResourceManager(xml);
         //Hopefully someone gets this reference
         System.out.println("Constructing additional Resources");
         //Make resource
@@ -91,7 +89,6 @@ public class Postresource {
         //Add entries
         //bundle.addEntry() pllus all the other stuff.
         //.resource() will alawys be in a certain order
-        //If there is only a  finite things thats fine but if there are a lot could get messy. Not anymore!!
         //client.transaction().withBundle(bundle);
         return patientID;
         }

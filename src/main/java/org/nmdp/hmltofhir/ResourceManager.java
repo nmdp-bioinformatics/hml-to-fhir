@@ -1,8 +1,16 @@
 package org.nmdp.hmltofhir;
 
 public class ResourceManager {
+    public ResourceManager(String xml)
+    {
+        XMLParse parse= new XMLParse(xml);
+        parse.grab();
+    }
 	
 	public static void addResource(String resource,String strucutre, String value) {
+        String [] sequence= new String[20];
+        //Rinse and repeat for all resources
+        
 		/*create resources
 		 * another template
 		 * schema example
