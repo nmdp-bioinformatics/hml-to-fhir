@@ -27,9 +27,11 @@ public class XMLParse {
 
 	private String xml;
 	public static Document resourceTemplate = null;
+    public static ResourceManager resources;
 
-	public XMLParse(String xml) {
+	public XMLParse(String xml, ResourceManager resources) {
 		this.xml = xml;
+        this.resources=resources;
 	}
 
 	public void grab() {
@@ -44,7 +46,7 @@ public class XMLParse {
 			sendResources(xmlDOM);
 
 		} catch (Exception e) {
-			System.out.println("Error in handle Grabbing" + e);
+			System.out.println("Error in handle Grabbing " + e);
 		}
 		//return null;
 	}
@@ -52,17 +54,20 @@ public class XMLParse {
 	private void sendResources(Document xmlDOM) {
 		NodeList resourceList = resourceTemplate.getElementsByTagName("resourceName");
 		NodeList xmlAttributes = xmlDOM.getElementsByTagName("*");//Gets All nodes
-		System.out.println(xmlAttributes.getLength());
-		for (int j = 0; j < xmlAttributes.getLength(); j++) {
+        boolean found = false;
+        int j=0;
+		for (j = 0; j < xmlAttributes.getLength(); j++) {
             System.out.println("break");
             NamedNodeMap xmlAttribute = xmlAttributes.item(j).getAttributes();
-            System.out.println("1 "+ xmlAttributes.item(j).toString());
+            System.out.println("1 "+ xmlAttributes.item(j).getNodeName().toString());
             System.out.println("2 "+getFirstLevelTextContent(xmlAttributes.item(j)));
-
+            found=false;
 			for (int h = 0; h < xmlAttribute.getLength(); h++) {
                 System.out.println("3 "+xmlAttribute.item(h).toString());
+                System.out.println("4 "+xmlAttribute.item(h).getNodeValue());
                 for (int i = 0; i < resourceList.getLength(); i++) {
 					NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
+                    
                     //What should be in the resource XML
                     //Node
                     // Attribute
@@ -70,22 +75,41 @@ public class XMLParse {
                     //Structure
                     //Lowerstructure(if none then make empty make this optional
 					
-					if (xmlAttribute.item(h).getNodeName().equals(getAttribute(resourceAttribute, "attribute")) && xmlAttributes.item(j).getNodeName().equals(getAttribute(resourceAttribute,"Node"))) {// If Attribute matches a resource
-                        ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
+					if ((xmlAttribute.item(h).getNodeName().equals(getAttribute(resourceAttribute, "attribute"))) && xmlAttributes.item(j).getNodeName().equals(getAttribute(resourceAttribute,"node"))) {// If Attribute matches a resource
+                        System.out.println("Found Attribute");
+                        resources.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
 					}
-                    else if(xmlAttributes.item(j).getNodeName().equals(getAttribute(resourceAttribute,"attribute"))){//If a Node text content matches the needs a resource
-                        ResourceManager.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),getFirstLevelTextContent(xmlAttributes.item(j)));
+                    if(j>0&&!found&&(xmlAttributes.item(j-1).getNodeName().equals(getAttribute(resourceAttribute,"node")))&& (getAttribute(resourceAttribute,"attribute")==null)){//If a Node text content matches the needs a resource
+                        found=true;
+                        System.out.println("found node");
+                    resources.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),getFirstLevelTextContent(xmlAttributes.item(j-1)));
 
                     }
-                    
-
 				}
-			}
-		}
+            }
+        }
+        for (int i = 0; i < resourceList.getLength(); i++) {
+            NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
+            
+            //What should be in the resource XML
+            //Node
+            // Attribute
+            //Resource
+            //Structure
+            //Lowerstructure(if none then make empty make this optional
+            if(j>0&&!found&&(xmlAttributes.item(j-1).getNodeName().equals(getAttribute(resourceAttribute,"node")))&& (getAttribute(resourceAttribute,"attribute")==null)){//If a Node text content matches the needs a resource
+                found=true;
+                System.out.println("found node");
+                resources.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),getFirstLevelTextContent(xmlAttributes.item(j-1)));
+                
+            }
+        }
+
+        resources.createResources();
 
 	}
 
-	private String xmlToString(String string) {
+	public String xmlToString(String string) {
 
 		try {
             File file = new File(Postresource.class.getResource(string).getFile());
@@ -112,8 +136,9 @@ public class XMLParse {
 
 	public static String getAttribute(NamedNodeMap resourceAttributes, String attributeName) {
 		Node resource = resourceAttributes.getNamedItem(attributeName);
+        
 		String foundAttribute = resource != null ? resource.getNodeValue() : null;
-		return foundAttribute;
+        return foundAttribute;
 	}
     
     public static String getFirstLevelTextContent(Node node) {

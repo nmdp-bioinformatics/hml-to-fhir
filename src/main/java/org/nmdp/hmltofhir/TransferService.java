@@ -79,7 +79,7 @@ public class TransferService {
 	{
 		System.out.println("Post");
         String [] data=structureArr.toArray(new String[0]);
-       // Put put = new Put(data[1],data[2],data[0]);
+       // Put put = new Put(data[1],data[2],data[3],data[0]);
         //put.update();
 		return "catdog";
 	}

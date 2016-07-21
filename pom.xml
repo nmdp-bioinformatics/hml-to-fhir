@@ -99,13 +99,13 @@
       <version>3.1.0</version>
       <scope>provided</scope>
     </dependency>
-
+<!-- Unused-->
     <dependency>
       <groupId>asm</groupId>
       <artifactId>asm</artifactId>
       <version>3.3.1</version>
     </dependency>
-
+<!-- Unused-->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
@@ -117,25 +117,25 @@
         <artifactId>jersey-bundle</artifactId>
         <version>1.19</version>
     </dependency>
-    
+    <!-- Unused-->
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-server</artifactId>
       <version>1.19</version>
     </dependency>
-
+<!-- Unused-->
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-core</artifactId>
       <version>1.19</version>
     </dependency>
-
+<!-- Unused-->
     <dependency>
       <groupId>com.megginson.sax</groupId>
       <artifactId>xml-writer</artifactId>
       <version>0.2</version>
     </dependency>
-
+<!-- Unused-->
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>Saxon-HE</artifactId>
@@ -147,7 +147,7 @@
       <artifactId>slf4j-api</artifactId>
       <version>1.7.12</version>
     </dependency>
-    
+    <!-- Unused-->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
@@ -164,34 +164,37 @@
         <artifactId>hapi-fhir-structures-dstu3</artifactId>
         <version>1.6</version>
     </dependency>
+    <!-- Unused-->
     <dependency>
         <groupId>ca.uhn.hapi.fhir</groupId>
         <artifactId>hapi-fhir-structures-dstu2</artifactId>
         <version>1.5</version>
     </dependency>
+    <!-- Unused-->
     <dependency>
         <groupId>ca.uhn.hapi.fhir</groupId>
         <artifactId>hapi-fhir-structures-dstu</artifactId>
         <version>1.5</version>
     </dependency>
+    <!-- Unused-->
     <dependency>
         <groupId>ca.uhn.hapi.fhir</groupId>
         <artifactId>hapi-fhir-validation-resources-dstu3</artifactId>
         <version>1.6</version>
     </dependency>
+    <!-- Unused-->
     <dependency>
         <groupId>com.sun.jersey</groupId>
         <artifactId>jersey-json</artifactId>
         <version>1.17.1</version>
     </dependency>
+    <!-- Unused-->
     <dependency>
         <groupId>commons-httpclient</groupId>
         <artifactId>commons-httpclient</artifactId>
         <version>3.1</version>
     </dependency>
-
-
-
+<!-- Unused-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

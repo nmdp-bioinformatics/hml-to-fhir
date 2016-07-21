@@ -2,12 +2,130 @@
 
 <rule-template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../schema/RuleTemplate.xsd">
-
+<!-- Specimen-Collection-method-->
   <resourceName
-            attribute=" "
-            resource=" "
-            structure=" "
+            node="collection-method"
+            resource="Specimen"
+            structure="collection"
+            position="0"
             />
+            <!-- Diagonostic Report-Identifier-Value-->
+            <resourceName
+            node="hmlid"
+            attribute="root"
+            resource="DiagnosticReport"
+            structure="Identifier"
+            lowerStructure="value"
+            position="0"
+            
+            />
+            <!-- Sequence-->
+            <!--Method-->
+            <resourceName
+            node="haploid"
+            attribute="method"
+            resource="Sequence"
+            structure="type"
+            position="0"
+            />
+            <!--Ref Seq start-->
+            <resourceName
+            node="reference-sequence"
+            attribute="start"
+            resource="Sequence"
+            structure="referenceSeq"
+            lowerStructure="windowStart"
+            position="1"
+            />
+            <!--Ref Seq End -->
+            <resourceName
+            node="reference-sequence"
+            attribute="end"
+            resource="Sequence"
+            structure="referenceSeq"
+            lowerStructure="windowEnd"
+            position="2"
+            />
+            <!-- Ref Seq Strand-->
+            <resourceName
+                node="reference-sequence"
+                attribute="strand"
+                resource="Sequence"
+                structure="referenceSeq"
+                lowerStructure="strand"
+                position="3"
+                />
+                <!-- observerd Seq-->
+                <resourceName
+                    node="sequence"
+                    resource="Sequence"
+                    structure="observedSeq"
+                    position="4"
+                    />
+                    <!-- Variant start-->
+                    <resourceName
+                        node="variant"
+                        attribute="start"
+                        resource="Sequence"
+                        structure="variant"
+                        lowerStructure="start"
+                        position="5"
+                        />
+                        <!-- Variant End -->
+                        <resourceName
+                            node="variant"
+                            attribute="end"
+                            resource="Sequence"
+                            structure="variant"
+                            lowerStructure="end"
+                            position="6"
+                            />
+                            <!-- Variant observed Allele -->
+                            <resourceName
+                                node="variant"
+                                attribute="alternate-bases"
+                                resource="Sequence"
+                                structure="variant"
+                                lowerStructure="observedAllele"
+                                position="7"
+                                />
+                                <!-- Variant Reference Allele -->
+                                <resourceName
+                                    node="variant"
+                                    attribute="reference-bases"
+                                    resource="Sequence"
+                                    structure="variant"
+                                    lowerStructure="referenceAllele"
+                                    position="8"
+                                    />
+                                    <!-- Quality Start -->
+                                    <resourceName
+                                        node="sequence-quality"
+                                        attribute="sequence-start"
+                                        resource="Sequence"
+                                        structure="quality"
+                                        lowerStructure="start"
+                                        position="9"
+                                        />
+                                        <!-- Quality End -->
+                                        <resourceName
+                                            node="sequence-quality"
+                                            attribute="sequence-end"
+                                            resource="Sequence"
+                                            structure="quality"
+                                            lowerStructure="end"
+                                            position="10"
+                                            />
+                                            <!-- Qualty Score -->
+                                            <resourceName
+                                                node="sequence-quality"
+                                                attribute="quality-score"
+                                                resource="Sequence"
+                                                structure="quality"
+                                                lowerStructure="score-value"
+                                                position="11"
+                                                />
+                    
 </rule-template>
 
 

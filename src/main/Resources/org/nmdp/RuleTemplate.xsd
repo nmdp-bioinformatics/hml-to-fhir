@@ -10,9 +10,12 @@
           <xs:complexType>
             <xs:simpleContent>
               <xs:extension base="xs:string">
-                <xs:attribute type="xs:string" name="attribute" use="required"/>
+                  <xs:attribute type="xs:string" name="node" use="required" />
+                <xs:attribute type="xs:string" name="attribute" use="optional"/>
                 <xs:attribute type="xs:string" name="resource"       use="required"/>
                 <xs:attribute type="xs:string" name="structure"  use="required"/>
+                <xs:attribute type="xs:string" name="position" use="required"/>
+                <xs:attribute type="xs:string" name="lowerStructure" use="optional" />
               </xs:extension>
             </xs:simpleContent>
           </xs:complexType>

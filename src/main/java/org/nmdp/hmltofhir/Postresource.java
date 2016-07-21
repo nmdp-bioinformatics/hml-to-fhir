@@ -23,6 +23,7 @@ public class Postresource {
     private String patientBirth;
     private String patientID;
     private String xml;
+    public static Patient patient = new Patient();
     
     public Postresource(String[] data) {
         this.patientFamilyName=data[0];
@@ -38,7 +39,6 @@ public class Postresource {
         FhirContext ctx = FhirContext.forDstu3();
         //serverbase=server url
         IGenericClient client = ctx.newRestfulGenericClient("http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2");
-        Patient patient = new Patient();
         patient.addIdentifier().setValue(patientID);
         patient.addName().addFamily(patientFamilyName).addGiven(patientGivenName);
         if(patientGender.equals("MALE"))
@@ -57,7 +57,9 @@ public class Postresource {
         {
             patient.setGender(AdministrativeGender.OTHER);
         }
-        else{}
+        else{
+            patient.setGender(null);
+        }
         
         //Not working skip for now String->DateDt
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,15 +82,14 @@ public class Postresource {
         
         // Send in resource template
         System.out.print("Parsing XML");
-        ResourceManager resource= new ResourceManager(xml);
+        ResourceManager manager= new ResourceManager(xml);
         //Hopefully someone gets this reference
-        System.out.println("Constructing additional Resources");
-        //Make resource
-        //String placeholder=resource.getPatientStructure(0);
-        Person person;
-        //Add entries
-        //bundle.addEntry() pllus all the other stuff.
-        //.resource() will alawys be in a certain order
+        //Replace "placeholder" with manager.resourceName.getId() its being  null right now for some reason
+        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);
+        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.specimen).getRequest().setUrl("Specimen").setMethod(HTTPVerb.POST);
+        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.observation).getRequest().setUrl("Observation").setMethod(HTTPVerb.POST);
+        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
+        
         //client.transaction().withBundle(bundle);
         return patientID;
         }

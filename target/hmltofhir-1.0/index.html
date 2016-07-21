@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <!-- Font Awesome Icons for the validation checkmark. -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        
 
     <style>
 body {font-family: "Lato", sans-serif;}
@@ -124,26 +125,26 @@ function openAction(evt,action) {
  <!-- After Mapping make resources in alphabetical order -->
  <select id="resour" onchange="showForm()">
      <option value="0">Resource</option>
-     <option value="struct">Patient</option>
-     <option value="struct1">Sequence</option>
+     <option value="Patient">Patient</option>
+     <option value="Sequence">Sequence</option>
  </select>
  <!-- will there be to many forms? -->
  <div id="f1" style="display:none">
      <form name="form1">
-         <select id="struct" onchange="showText()">
+         <select id="Patient" onchange="showText()">
              <option value="0">Select Option</option>
-             <option value="ooo">Option 1A</option>
-             <option value="ppp">Option 1B</option>
+             <option value="Patient-GivenName">Given Name</option>
+             <option value="Patient-FamilyName">Family Name</option>
          </select>
      </form>
  </div>
  
  <div id="f2" style="display:none">
      <form name="form2">
-         <select id="struct1" onchange="showText()">
+         <select id="Sequence" onchange="showText()">
              <option value="0">Select Option</option>
-             <option value="resourceName">Option 2A</option>
-             <option value="resourceName">Option 2B</option>
+             <option value="Variant-Start">Variant-Start</option>
+             <option value="Variant-Stop">Variant-Stop</option>
          </select>
      </form>
  </div>
@@ -155,11 +156,11 @@ function openAction(evt,action) {
     
      function showForm() {
          var selopt = document.getElementById("resour").value;
-         if (selopt == "struct") {
+         if (selopt == "Patient") {
              document.getElementById("f1").style.display = "block";
              document.getElementById("f2").style.display = "none";
          }
-         if (selopt == "struct1") {
+         if (selopt == "Sequence") {
              document.getElementById("f2").style.display = "block";
              document.getElementById("f1").style.display = "none";
          }

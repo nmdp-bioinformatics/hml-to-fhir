@@ -29,7 +29,7 @@ function Post()
                          var postResult = $.post(post,{names:names})
                          .done(function(uuid)
                                {
-                               alert( "Information has been posted\n ID: "+uuid );
+                               alert( "Information has been posted\nID: "+uuid );
                                })
                          .fail(function(response)
                                {
@@ -72,7 +72,7 @@ function Get()
     var id = document.getElementById("patientIDGET").value;
     if(id=="")
     {
-        alert("Please enter an ID")
+        alert("No ID entered: Please enter an ID")
         
     }
     else{
@@ -104,10 +104,27 @@ function Put()
 {
     
     var put = window.location.href + "transfer/toFHIR/UPDATE/";
-    var resource = getElementById("resour").value;
-    var structure = getElementById(getElementById("resour").value).value;
-    var updateStructure=getElementById("changeTextArea").value;
-    var structureArr=[resource,structure,updateStructure];
+    var resource = document.getElementById("resour").value;
+    var structure = document.getElementById(document.getElementById("resour").value).value.split('-');
+    var updateStructure=document.getElementById("changeTextArea").value;
+    //0 is non-primative data type 1 is the primative data type
+    var structureArr=[resource,structure[0],structure[1],updateStructure];
+    if(updateStructure=="")
+    {
+        alert("Please enter a value to update");
+    }
+    else if(resource==0)
+    {
+        alert("Please choose a resource");
+    }
+    else if(structure==0)
+    {
+        alert("Please choose a structure");
+    }
+    else if(substruct==0)
+    {
+        alert("Please choose a structure");
+    }
     var result = $.post(put,{structureArr:structureArr},
                         function(response)
                         {
