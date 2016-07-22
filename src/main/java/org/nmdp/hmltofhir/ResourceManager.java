@@ -43,15 +43,17 @@ public class ResourceManager {
     public static DiagnosticReport diagnosticReport= new DiagnosticReport();
     private static XMLParse parse;
     private static String xml;
+    private static String patientID;
     private static Document resourceTemplate;
     public static String [] seq= new String[20];
     public static String [] spec = new String[20];
     public static String [] obv = new String [20];
     public static String [] diag = new String [20];
-    public ResourceManager(String xml)
+    public ResourceManager(String xml,Patient patient)
     {
         parse= new XMLParse(xml,this);
         this.xml=xml;
+        patientID=patient.getIdElement().getIdPart();
         parse.grab();
     }
 	
@@ -138,8 +140,14 @@ public class ResourceManager {
     {
         //Call all methods
         System.out.println("Making resources");
+        specimen.setId("urn:uuid:"+UUID.randomUUID().toString());
+        sequence.setId("urn:uuid:"+UUID.randomUUID().toString());
+        diagnosticReport.setId("urn:uuid:"+UUID.randomUUID().toString());
+        observation.setId("urn:uuid:"+UUID.randomUUID().toString());
         newSpecimen();
         newSequence();
+        newObservation();
+        newDiagonostic();
         
     }
     // Checks if string is null if so
@@ -157,7 +165,7 @@ public class ResourceManager {
         
             specimen=new Specimen();
             Reference[] ref = new Reference[]{new Reference()};
-            ref[0].setReference("Patient/"+diag[0]);
+            ref[0].setReference(patientID);
             specimen.setCollection(SpecimenCollectionComponent.class.newInstance().setMethod(CodeableConcept.class.newInstance().setText(spec[0])));
             specimen.setSubject(ref[0]);
         }
@@ -180,8 +188,8 @@ public class ResourceManager {
             sequence.addQuality().setStart(Integer.parseInt(seq[9])).setEnd(Integer.parseInt(seq[10])).setScore(Quantity.class.newInstance().setValue(Double.parseDouble(seq[11])));
             sequence.setType(SeqType(seq[0]));
             
-            sequence.setSpecimen(ref[0].setReference("Specimen/"+diag[0]));
-            sequence.setPatient(ref[0].setReference("Patient/"+diag[0]));
+            sequence.setSpecimen(ref[0].setReference(specimen.getIdElement().getIdPart()));
+            sequence.setPatient(ref[0].setReference(patientID));
         }
         catch(Exception e)
         {
@@ -205,6 +213,14 @@ public class ResourceManager {
                 else{
                     return null;
                 }
+    }
+    public static void newObservation()
+    {
+        
+    }
+    public static void newDiagonostic()
+    {
+        
     }
     /* ToDo:
      If there are references they will be put at the end of the array

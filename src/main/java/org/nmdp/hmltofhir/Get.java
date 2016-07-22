@@ -28,17 +28,26 @@ public class Get {
     //id will be created in the POST method
     public String search() {
         FhirContext ctx = FhirContext.forDstu3();
+        String baseSite= "http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2/";
         IGenericClient client = ctx.newRestfulGenericClient("http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2");
         System.out.println("Connected to server");
-        //Due to lack of transaction bundle search support this is the only way I could think of getting all the bundles.
-        Bundle bundle= client.search().forResource(Patient.class).where(Patient.IDENTIFIER.exactly().identifier(id)).returnBundle(Bundle.class).execute();
+        DiagnosticReport diag = client.read().resource(DiagnosticReport.class).withUrl(baseSite+"DiagnosticReport"+id).execute();
+        //When there are more references, loop through the list for each one and add to ubundle in loop
+        Observation obv = client.read().resource(Observation.class).withUrl(baseSite+diag.getResult().get(0)).execute();
+        Sequence seq = client.read().resource(Sequence.class).withUrl(baseSite+obv.getRelated().get(0).getTarget()).execute();
+        Specimen spec = client.read().resource(Specimen.class).withUrl(baseSite+diag.getSpecimen().get(0)).execute();
+        Patient patient=client.read().resource(Patient.class).withUrl(baseSite+diag.getSubject()).execute();
+        //Add to bundle
+        Bundle bundle=new Bundle();
+        bundle.addEntry().setResource(diag);
+        bundle.addEntry().setResource(obv);
+        bundle.addEntry().setResource(seq);
+        bundle.addEntry().setResource(spec);
+        bundle.addEntry().setResource(patient);
         
-        Bundle newbundle = client.search().forResource(Specimen.class).where(Specimen.IDENTIFIER.exactly().identifier(id)).returnBundle(Bundle.class).execute();
         
-        System.out.println("Bundle Found");
-        //After research, there is no proper way to loop through all resources.
-        String fullBundle=ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle)+ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(newbundle);
         System.out.println("Bundle....bundled...sigh");
-        return fullBundle;
+        String finalBundle=ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
+        return finalBundle;
     }
 }

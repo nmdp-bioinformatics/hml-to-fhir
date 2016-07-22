@@ -30,7 +30,7 @@ public class Postresource {
         this.patientGivenName=data[1];
         this.patientGender=data[2].toUpperCase();
         this.patientBirth=data[3];
-        this.patientID=UUID.randomUUID().toString();
+        this.patientID="urn:uuid:"+UUID.randomUUID().toString();
         this.xml=data[4];
         
         //Make this string array 0-n is patient data n+1 is the xml
@@ -39,7 +39,6 @@ public class Postresource {
         FhirContext ctx = FhirContext.forDstu3();
         //serverbase=server url
         IGenericClient client = ctx.newRestfulGenericClient("http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2");
-        patient.addIdentifier().setValue(patientID);
         patient.addName().addFamily(patientFamilyName).addGiven(patientGivenName);
         if(patientGender.equals("MALE"))
         {
@@ -72,7 +71,7 @@ public class Postresource {
             e.printStackTrace();
         }
         //is it bad practice to set all ID's with the same ID? If its univerisally unique why not right?
-        patient.setId(new IdDt(patientID));
+        patient.setId(patientID);
         
         
         Bundle bundle= new Bundle();
@@ -82,7 +81,7 @@ public class Postresource {
         
         // Send in resource template
         System.out.print("Parsing XML");
-        ResourceManager manager= new ResourceManager(xml);
+        ResourceManager manager= new ResourceManager(xml,patient);
         //Hopefully someone gets this reference
         //Replace "placeholder" with manager.resourceName.getId() its being  null right now for some reason
         bundle.addEntry().setFullUrl("Placeholder").setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);
@@ -91,7 +90,7 @@ public class Postresource {
         bundle.addEntry().setFullUrl("Placeholder").setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
         
         //client.transaction().withBundle(bundle);
-        return patientID;
+        return manager.diag[0];
         }
     
 }
