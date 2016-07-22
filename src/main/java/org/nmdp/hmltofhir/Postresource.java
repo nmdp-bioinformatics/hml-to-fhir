@@ -37,8 +37,9 @@ public class Postresource {
     }
     public String sendResources() {
         FhirContext ctx = FhirContext.forDstu3();
-        //serverbase=server url
+        //change site once it is updated to DSTU3
         IGenericClient client = ctx.newRestfulGenericClient("http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2");
+        //Create patient
         patient.addName().addFamily(patientFamilyName).addGiven(patientGivenName);
         if(patientGender.equals("MALE"))
         {
@@ -70,26 +71,25 @@ public class Postresource {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        //is it bad practice to set all ID's with the same ID? If its univerisally unique why not right?
         patient.setId(patientID);
         
         
-        Bundle bundle= new Bundle();
-        bundle.setType(BundleType.TRANSACTION);
-        System.out.println("Send Resources");
-        bundle.addEntry().setFullUrl(patient.getId()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerb.POST);
-        
-        // Send in resource template
         System.out.print("Parsing XML");
         ResourceManager manager= new ResourceManager(xml,patient);
         //Hopefully someone gets this reference
         //Replace "placeholder" with manager.resourceName.getId() its being  null right now for some reason
+        //Add Resources to bundle
+        Bundle bundle= new Bundle();
+        bundle.setType(BundleType.TRANSACTION);
+        System.out.println("Send Resources");
+        bundle.addEntry().setFullUrl(patient.getId()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerb.POST);
         bundle.addEntry().setFullUrl("Placeholder").setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);
         bundle.addEntry().setFullUrl("Placeholder").setResource(manager.specimen).getRequest().setUrl("Specimen").setMethod(HTTPVerb.POST);
         bundle.addEntry().setFullUrl("Placeholder").setResource(manager.observation).getRequest().setUrl("Observation").setMethod(HTTPVerb.POST);
         bundle.addEntry().setFullUrl("Placeholder").setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
         
         //client.transaction().withBundle(bundle);
+        //Return the hmlid so that they may use the GET function.
         return manager.diag[0];
         }
     

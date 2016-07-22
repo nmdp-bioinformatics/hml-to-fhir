@@ -39,13 +39,13 @@ import org.xml.sax.helpers.DefaultHandler;
 public class ResourceManager {
     public static Specimen specimen;
     public static Sequence sequence;
-    public static Observation observation = new Observation();
-    public static DiagnosticReport diagnosticReport= new DiagnosticReport();
+    public static Observation observation;
+    public static DiagnosticReport diagnosticReport;
     private static XMLParse parse;
     private static String xml;
     private static String patientID;
     private static Document resourceTemplate;
-    public static String [] seq= new String[20];
+    public static String [] seq = new String[20];
     public static String [] spec = new String[20];
     public static String [] obv = new String [20];
     public static String [] diag = new String [20];
@@ -56,11 +56,12 @@ public class ResourceManager {
         patientID=patient.getIdElement().getIdPart();
         parse.grab();
     }
-	
+
+     
 	public static void addResource(String resource,String structure, String value) {
         /*
          Change these arrays to arrays of linked lists
-         This allows for multiple of any structure to beb allowed 
+         This allows for multiple of any structure to beb allowed
          */
         
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -156,7 +157,8 @@ public class ResourceManager {
 		return (value==null)|| (value.equals(""))? null: value;
 	}
     public static void newSpecimen()
-    {
+    {                 //Appies for all resources
+                    //Make an array of the resources with size of length of longest linked list in linked list array
                     //Specimen.addwhatever in a for loop through linked lists do a hard set at 10 but can change
                     //loop through linked list if it hits a null it doesnt matter'
         System.out.println("In Specimen");
@@ -180,8 +182,6 @@ public class ResourceManager {
         try{
             sequence=new Sequence();
             Reference [] ref = new Reference[]{new Reference(),new Reference()};
-            //Cant find the method for some reason
-            //Sequence.addReferenceSeq().setWindowStart(Integer.parseInt(seq[1])).setWindowEnd(Integer.parseInt(seq[2])).setReferenceSeqString(seq[3]);
             sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(Integer.parseInt(seq[1])).setWindowEnd(Integer.parseInt(seq[2])).setReferenceSeqString(seq[3]));
             sequence.setObservedSeq(seq[4]);
             sequence.addVariant().setStart(Integer.parseInt(seq[5])).setEnd(Integer.parseInt(seq[6])).setObservedAllele(seq[7]).setReferenceAllele(seq[8]);
@@ -216,13 +216,18 @@ public class ResourceManager {
     }
     public static void newObservation()
     {
-        
+        observation=new Observation();
+        Reference ref= new Reference();
+        observation.addRelated().setTarget(ref.setReference(sequence.getIdElement().getIdPart()));
     }
     public static void newDiagonostic()
     {
-        
+        diagnosticReport=new DiagnosticReport();
+        Reference [] ref = new Reference[] { new Reference(),new Reference(),new Reference()};
+        diagnosticReport.addSpecimen(ref[0].setReference(specimen.getIdElement().getIdPart()));
+        diagnosticReport.setSubject(ref[1].setReference(patientID));
+        diagnosticReport.addResult(ref[2].setReference(observation.getIdElement().getIdPart()));
+                         
     }
-    /* ToDo:
-     If there are references they will be put at the end of the array
-     String to primative data types methods*/
+    
 }
