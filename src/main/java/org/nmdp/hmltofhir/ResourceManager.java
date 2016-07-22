@@ -141,14 +141,21 @@ public class ResourceManager {
     {
         //Call all methods
         System.out.println("Making resources");
-        specimen.setId("urn:uuid:"+UUID.randomUUID().toString());
-        sequence.setId("urn:uuid:"+UUID.randomUUID().toString());
-        diagnosticReport.setId("urn:uuid:"+UUID.randomUUID().toString());
-        observation.setId("urn:uuid:"+UUID.randomUUID().toString());
+        try{
+        spec[19]="urn:uuid:"+UUID.randomUUID().toString();
+        seq[19]="urn:uuid:"+UUID.randomUUID().toString();
+        diag[19]="urn:uuid:"+UUID.randomUUID().toString();
+        obv[19]="urn:uuid:"+UUID.randomUUID().toString();
         newSpecimen();
         newSequence();
         newObservation();
         newDiagonostic();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error? "+e);
+            
+        }
         
     }
     // Checks if string is null if so
@@ -173,7 +180,7 @@ public class ResourceManager {
         }
         catch(Exception e)
         {
-            
+            System.out.println("Specimen Exception: "+e);
         }
     }
     public static void newSequence()
@@ -188,12 +195,12 @@ public class ResourceManager {
             sequence.addQuality().setStart(Integer.parseInt(seq[9])).setEnd(Integer.parseInt(seq[10])).setScore(Quantity.class.newInstance().setValue(Double.parseDouble(seq[11])));
             sequence.setType(SeqType(seq[0]));
             
-            sequence.setSpecimen(ref[0].setReference(specimen.getIdElement().getIdPart()));
+            sequence.setSpecimen(ref[0].setReference(spec[19]));
             sequence.setPatient(ref[0].setReference(patientID));
         }
         catch(Exception e)
         {
-                            
+             System.out.println("Sequence Exception: "+e);
         }
     }
     public static SequenceType SeqType(String type)
@@ -216,18 +223,33 @@ public class ResourceManager {
     }
     public static void newObservation()
     {
+        System.out.println("In observation");
+        try{
         observation=new Observation();
         Reference ref= new Reference();
-        observation.addRelated().setTarget(ref.setReference(sequence.getIdElement().getIdPart()));
+        observation.addRelated().setTarget(ref.setReference(seq[19]));
+        }
+         catch(Exception e)
+        {
+            System.out.println("Observation Exception: "+e);
+        }
     }
     public static void newDiagonostic()
     {
+        System.out.println("In Diagon Alley");
+        try{
         diagnosticReport=new DiagnosticReport();
         Reference [] ref = new Reference[] { new Reference(),new Reference(),new Reference()};
-        diagnosticReport.addSpecimen(ref[0].setReference(specimen.getIdElement().getIdPart()));
+        diagnosticReport.addSpecimen(ref[0].setReference(spec[19]));
         diagnosticReport.setSubject(ref[1].setReference(patientID));
-        diagnosticReport.addResult(ref[2].setReference(observation.getIdElement().getIdPart()));
-                         
+        diagnosticReport.addResult(ref[2].setReference(obv[19]));
+        }
+        catch(Exception e)
+        {
+            System.out.println("Diagons!! Exception: "+e);
+        }
+    
+    
     }
     
 }
