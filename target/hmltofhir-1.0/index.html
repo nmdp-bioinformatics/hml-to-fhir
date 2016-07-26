@@ -1,4 +1,26 @@
 <!DOCTYPE html>
+<!--
+ 
+HMLTOFHIR Resource Transfer for HLA Data Transfer
+ Copyright (c) 2015 National Marrow Donor Program (NMDP)
+ 
+ This library is free software; you can redistribute it and/or modify it
+ under the terms of the GNU Lesser General Public License as published
+ by the Free Software Foundation; either version 3 of the License, or (at
+ your option) any later version.
+ 
+ This library is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; with out even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+ License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public License
+ along with this library;  if not, write to the Free Software Foundation,
+ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA.
+ 
+ > http://www.gnu.org/licenses/lgpl.html
+ 
+ -->
 
 <html>
 
@@ -116,19 +138,20 @@ function openAction(evt,action) {
 <br/>
 <div id="Get" class="tabcontent">
   <h3>Enter the ID of the patient you are looking up</h3>
-  Patient ID number <textarea id="patientIDGET" class="GetData"  cols='50'rows ="1"></textarea>
+  HML ID Number <textarea id="patientIDGET" class="GetData"  cols='50'rows ="1"></textarea>
   <!-- Add a Get button here to somehow reveal a bigger text area with the results or an alert saying id doesnt exist and to call someone -->
   <button class='btn btn-primary' onclick="javascript:Get();"> GET</button>
   <p id="textonly"></p>
  <textarea cols = '50' rows = '20' name='text' id='resultsText' class='form-control' style='resize:vertical' ></textarea>
+ <!--
  <h5> Update Data: Choose A Resource then Structure(if there are more sub-structures an extra menu will appear) </h5>
- <!-- After Mapping make resources in alphabetical order -->
+ <!-- After Mapping make resources in alphabetical order
  <select id="resour" onchange="showForm()">
      <option value="0">Resource</option>
      <option value="Patient">Patient</option>
      <option value="Sequence">Sequence</option>
  </select>
- <!-- will there be to many forms? -->
+ <!-- will there be to many forms?
  <div id="f1" style="display:none">
      <form name="form1">
          <select id="Patient" onchange="showText()">
@@ -151,7 +174,7 @@ function openAction(evt,action) {
  <div id="changeText" style="display:block">
      <textarea  cols="20" rows="1" name='textarea' id='changeTextArea' class='form-control' style='resize:vertical'></textarea>
  </div>
- <!--SOME STRUCTURES MIGHT HAVE SUB STRUCTURES (Non primative data-type) AND NEED ANOTHER FORM MAKE SURE YOU LOOK THOSE UP I.E NAME -->
+ <!--SOME STRUCTURES MIGHT HAVE SUB STRUCTURES (Non primative data-type) AND NEED ANOTHER FORM MAKE SURE YOU LOOK THOSE UP I.E NAME
  <script type="text/javascript">
     
      function showForm() {
@@ -172,7 +195,7 @@ function openAction(evt,action) {
  </script>
  <br/>
  <button class='btn btn-primary' onclick="javascript:Put();"> UPDATE </button>
-  <br/>
+  <br/>-->
 </div>
 <!--<br/>
 <div id="Update" class="tabcontent">
@@ -183,7 +206,9 @@ function openAction(evt,action) {
   <textarea cols = '50' rows = '20' name='text' id='result' class='form-control' style='resize:vertical' ></textarea>
  
   <br/>
-</div>
+</div>-->
+<p align="center" >Transfer source is on <a href="https://github.com/Anubhavbala/HMLtoFHIR">GITHUB</a></p>
+<p align="center"> Version 1.0 </p>
 
 
     

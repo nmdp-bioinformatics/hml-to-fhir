@@ -83,7 +83,7 @@ public class ResourceManager {
     }
 
      
-	public static void addResource(String resource,String structure, String value) {
+	public static void addResource(String node,String resource,String structure,String lower, String value) {
         /*
          Change these arrays to arrays of linked lists
          This allows for multiple of any structure to beb allowed
@@ -107,8 +107,9 @@ public class ResourceManager {
             System.out.println("Adding to Sequence");
             for (int i = 0; i < positionList.getLength(); i++) {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
-                if(structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource")))
+                if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
+                       System.out.println("Add to "+parse.getAttribute(positionAttribute,"position"));
                     seq[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                     }
                 
@@ -121,7 +122,7 @@ public class ResourceManager {
 
             for (int i = 0; i < positionList.getLength(); i++) {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
-                if(structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource")))
+                if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
                     spec[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                 }
@@ -136,7 +137,7 @@ public class ResourceManager {
    
             for (int i = 0; i < positionList.getLength(); i++) {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
-                if(structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource")))
+                if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
                     obv[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                 }
@@ -149,7 +150,7 @@ public class ResourceManager {
             System.out.println("Adding to DR");
             for (int i = 0; i < positionList.getLength(); i++) {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
-                if(structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource")))
+                if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
                     diag[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                 }
@@ -184,11 +185,6 @@ public class ResourceManager {
         }
         
     }
-    // Checks if string is null if so
-	public static String isNotNull(String value)
-	{
-		return (value==null)|| (value.equals(""))? null: value;
-	}
     public static void newSpecimen()
     {                 //Appies for all resources
                     //Make an array of the resources with size of length of longest linked list in linked list array
@@ -201,7 +197,7 @@ public class ResourceManager {
             specimen=new Specimen();
             Reference[] ref = new Reference[]{new Reference()};
             ref[0].setReference(patientID);
-            specimen.setCollection(SpecimenCollectionComponent.class.newInstance().setMethod(CodeableConcept.class.newInstance().setText(spec[0])));
+            specimen.setCollection(SpecimenCollectionComponent.class.newInstance().setMethod(CodeableConcept.class.newInstance().setText(isNotNull(spec[0]))));
             specimen.setSubject(ref[0]);
         }
         catch(Exception e)
@@ -215,12 +211,14 @@ public class ResourceManager {
         try{
             sequence=new Sequence();
             Reference [] ref = new Reference[]{new Reference(),new Reference()};
-            //sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(Integer.parseInt(seq[1])).setWindowEnd(Integer.parseInt(seq[2])).setReferenceSeqString(seq[3]));
+            sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(isNotNullInt(seq[1])).setWindowEnd(isNotNullInt(seq[2])).setReferenceSeqString(isNotNull(seq[3])));
             sequence.setObservedSeq(seq[4]);
-           // sequence.addVariant().setStart(Integer.parseInt(seq[5])).setEnd(Integer.parseInt(seq[6])).setObservedAllele(seq[7]).setReferenceAllele(seq[8]);
-            //sequence.addQuality().setStart(Integer.parseInt(seq[9])).setEnd(Integer.parseInt(seq[10])).setScore(Quantity.class.newInstance().setValue(Double.parseDouble(seq[11])));
-            sequence.setType(SeqType(seq[0]));
+            sequence.addVariant().setStart(isNotNullInt(seq[5])).setEnd(isNotNullInt(seq[6])).setObservedAllele(isNotNull(seq[7])).setReferenceAllele(isNotNull(seq[8]));
+            //Quality not working for some reason.
+            //sequence.addQuality().setStart(isNotNullInt(seq[9])).setEnd(isNotNullInt(seq[10])).setScore(Quantity.class.newInstance().setValue(isNotNullDouble(seq[11])));
+            sequence.setType(SeqType(isNotNull(seq[0])));
             sequence.setCoordinateSystem(1);
+            
             sequence.setSpecimen(ref[1].setReference(spec[19]));
             sequence.setPatient(ref[0].setReference(patientID));
         }
@@ -268,7 +266,7 @@ public class ResourceManager {
         try{
         diagnosticReport=new DiagnosticReport();
         Reference [] ref = new Reference[] { new Reference(),new Reference(),new Reference()};
-            diagnosticReport.addIdentifier().setValue(diag[0])
+            diagnosticReport.addIdentifier().setValue(isNotNull(diag[0]))
             ;
         diagnosticReport.addSpecimen(ref[0].setReference(spec[19]));
         diagnosticReport.setSubject(ref[1].setReference(patientID));
@@ -287,5 +285,21 @@ public class ResourceManager {
     
     
     }
+    
+    //Since Parse is old and cant accept null I made my own for parseing Ints and Doubles
+    public static String isNotNull(String value)
+    {
+        System.out.println(value);
+        return (value==null)|| (value.equals(""))? null: value;
+    }
+    public static int isNotNullInt(String value)
+    {System.out.println(value);
+        return(value==null)||(value.equals(""))? null:Integer.parseInt(value);
+    }
+    public static Double isNotNullDouble(String value)
+    {System.out.println(value);
+        return(value==null)||(value.equals(""))?null:Double.parseDouble(value);
+    }
+
     
 }

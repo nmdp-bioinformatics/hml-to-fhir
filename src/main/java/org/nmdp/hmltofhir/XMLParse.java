@@ -90,21 +90,15 @@ public class XMLParse {
                 for (int i = 0; i < resourceList.getLength(); i++) {
 					NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
                     
-                    //What should be in the resource XML
-                    //Node
-                    // Attribute
-                    //Resource
-                    //Structure
-                    //Lowerstructure(if none then make empty make this optional
-					
+                
 					if ((xmlAttribute.item(h).getNodeName().equals(getAttribute(resourceAttribute, "attribute"))) && xmlAttributes.item(j).getNodeName().equals(getAttribute(resourceAttribute,"node"))) {// If Attribute matches a resource
                         System.out.println("Found Attribute");
-                        resources.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),xmlAttribute.item(h).getNodeValue());
+                        resources.addResource(getAttribute(resourceAttribute,"node"),getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),ifLowerExists(getAttribute(resourceAttribute,"lowerStructure")),xmlAttribute.item(h).getNodeValue());
 					}
                     if(j>0&&!found&&(xmlAttributes.item(j-1).getNodeName().equals(getAttribute(resourceAttribute,"node")))&& (getAttribute(resourceAttribute,"attribute")==null)){//If a Node text content matches the needs a resource
                         found=true;
                         System.out.println("found node");
-                    resources.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),getFirstLevelTextContent(xmlAttributes.item(j-1)));
+                    resources.addResource(getAttribute(resourceAttribute,"node"),getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),ifLowerExists(getAttribute(resourceAttribute,"lowerStructure")),getFirstLevelTextContent(xmlAttributes.item(j-1)));
 
                     }
 				}
@@ -122,7 +116,7 @@ public class XMLParse {
             if(j>0&&!found&&(xmlAttributes.item(j-1).getNodeName().equals(getAttribute(resourceAttribute,"node")))&& (getAttribute(resourceAttribute,"attribute")==null)){//If a Node text content matches the needs a resource
                 found=true;
                 System.out.println("found node");
-                resources.addResource(getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),getFirstLevelTextContent(xmlAttributes.item(j-1)));
+                resources.addResource(getAttribute(resourceAttribute,"node"),getAttribute(resourceAttribute,"resource"),getAttribute(resourceAttribute,"structure"),ifLowerExists(getAttribute(resourceAttribute,"lowerStructure")),getFirstLevelTextContent(xmlAttributes.item(j-1)));
                 
             }
         }
@@ -172,6 +166,10 @@ public class XMLParse {
                 textContent.append(child.getTextContent());
         }
         return textContent.toString();
+    }
+    public static String ifLowerExists(String value)
+    {
+        return ((value==null)||(value.equals("")))?"null":value;
     }
 
 }

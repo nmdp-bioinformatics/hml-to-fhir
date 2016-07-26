@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
 HMLTOFHIR Resource Transfer for HLA Data Transfer
@@ -20,7 +21,7 @@ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA.
 > http://www.gnu.org/licenses/lgpl.html
 
 -->
-<?xml version="1.0" encoding="UTF-8"?>
+
 
 <rule-template xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../schema/RuleTemplate.xsd">
@@ -30,6 +31,7 @@ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA.
             resource="Specimen"
             structure="collection"
             position="0"
+            lowerStructure="null"
             />
             <!-- Diagonostic Report-Identifier-Value-->
             <resourceName
@@ -49,6 +51,7 @@ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA.
             resource="Sequence"
             structure="type"
             position="0"
+            lowerStructure="null"
             />
             <!--Ref Seq start-->
             <resourceName
@@ -83,6 +86,7 @@ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA.
                     resource="Sequence"
                     structure="observedSeq"
                     position="4"
+                    lowerStructure="null"
                     />
                     <!-- Variant start-->
                     <resourceName
