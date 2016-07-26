@@ -1,0 +1,8 @@
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:25 -0500] "GET /HMLtoFHIR/ HTTP/1.1" 200 8416 http-bio-8080-exec-1 27
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:25 -0500] "GET /HMLtoFHIR/javascript/resource.js HTTP/1.1" 304 - http-bio-8080-exec-2 1
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:27 -0500] "GET /HMLtoFHIR/ HTTP/1.1" 200 8416 http-bio-8080-exec-4 1
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:27 -0500] "GET /HMLtoFHIR/javascript/resource.js HTTP/1.1" 304 - http-bio-8080-exec-5 0
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:27 -0500] "GET /HMLtoFHIR/ HTTP/1.1" 200 8416 http-bio-8080-exec-6 1
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:27 -0500] "GET /HMLtoFHIR/javascript/resource.js HTTP/1.1" 304 - http-bio-8080-exec-7 1
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:52 -0500] "POST /HMLtoFHIR/transfer/toFHIR/Validate/ HTTP/1.1" 200 3202 http-bio-8080-exec-8 668
+0:0:0:0:0:0:0:1 - - [26/Jul/2016:14:10:53 -0500] "POST /HMLtoFHIR/transfer/toFHIR/POST HTTP/1.1" 200 20 http-bio-8080-exec-9 396

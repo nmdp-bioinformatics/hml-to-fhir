@@ -109,7 +109,6 @@ public class ResourceManager {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
                 if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
-                       System.out.println("Add to "+parse.getAttribute(positionAttribute,"position"));
                     seq[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                     }
                 
@@ -212,10 +211,9 @@ public class ResourceManager {
             sequence=new Sequence();
             Reference [] ref = new Reference[]{new Reference(),new Reference()};
             sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(isNotNullInt(seq[1])).setWindowEnd(isNotNullInt(seq[2])).setReferenceSeqString(isNotNull(seq[3])));
-            sequence.setObservedSeq(seq[4]);
+            sequence.setObservedSeq(isNotNull(seq[4]));
             sequence.addVariant().setStart(isNotNullInt(seq[5])).setEnd(isNotNullInt(seq[6])).setObservedAllele(isNotNull(seq[7])).setReferenceAllele(isNotNull(seq[8]));
-            //Quality not working for some reason.
-            //sequence.addQuality().setStart(isNotNullInt(seq[9])).setEnd(isNotNullInt(seq[10])).setScore(Quantity.class.newInstance().setValue(isNotNullDouble(seq[11])));
+            sequence.addQuality().setStart(isNotNullInt(seq[9])).setEnd(isNotNullInt(seq[10])).setScore(Quantity.class.newInstance().setValue(isNotNullDouble(seq[11])));
             sequence.setType(SeqType(isNotNull(seq[0])));
             sequence.setCoordinateSystem(1);
             
@@ -290,15 +288,15 @@ public class ResourceManager {
     public static String isNotNull(String value)
     {
         System.out.println(value);
-        return (value==null)|| (value.equals(""))? null: value;
+        return (value==null)|| (value.equals(""))? "null": value;
     }
     public static int isNotNullInt(String value)
     {System.out.println(value);
-        return(value==null)||(value.equals(""))? null:Integer.parseInt(value);
+        return(value==null)||(value.equals(""))? -400:Integer.parseInt(value);
     }
     public static Double isNotNullDouble(String value)
     {System.out.println(value);
-        return(value==null)||(value.equals(""))?null:Double.parseDouble(value);
+        return(value==null)||(value.equals(""))?-400:Double.parseDouble(value);
     }
 
     
