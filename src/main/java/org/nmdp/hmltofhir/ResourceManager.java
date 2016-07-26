@@ -19,6 +19,9 @@ import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Enumerations.*;
 import org.hl7.fhir.dstu3.model.Sequence.*;
 import org.hl7.fhir.dstu3.model.Specimen.*;
+import org.hl7.fhir.dstu3.model.Observation.*;
+import org.hl7.fhir.dstu3.model.DiagnosticReport.*;
+
 import ca.uhn.fhir.rest.client.IGenericClient;
 
 
@@ -49,11 +52,11 @@ public class ResourceManager {
     public static String [] spec = new String[20];
     public static String [] obv = new String [20];
     public static String [] diag = new String [20];
-    public ResourceManager(String xml,Patient patient)
+    public ResourceManager(String xml,String patientID)
     {
         parse= new XMLParse(xml,this);
         this.xml=xml;
-        patientID=patient.getIdElement().getIdPart();
+        this.patientID=patientID;
         parse.grab();
     }
 
@@ -142,6 +145,7 @@ public class ResourceManager {
         //Call all methods
         System.out.println("Making resources");
         try{
+            //Make identifiers
         spec[19]="urn:uuid:"+UUID.randomUUID().toString();
         seq[19]="urn:uuid:"+UUID.randomUUID().toString();
         diag[19]="urn:uuid:"+UUID.randomUUID().toString();
@@ -189,13 +193,13 @@ public class ResourceManager {
         try{
             sequence=new Sequence();
             Reference [] ref = new Reference[]{new Reference(),new Reference()};
-            sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(Integer.parseInt(seq[1])).setWindowEnd(Integer.parseInt(seq[2])).setReferenceSeqString(seq[3]));
+            //sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(Integer.parseInt(seq[1])).setWindowEnd(Integer.parseInt(seq[2])).setReferenceSeqString(seq[3]));
             sequence.setObservedSeq(seq[4]);
-            sequence.addVariant().setStart(Integer.parseInt(seq[5])).setEnd(Integer.parseInt(seq[6])).setObservedAllele(seq[7]).setReferenceAllele(seq[8]);
-            sequence.addQuality().setStart(Integer.parseInt(seq[9])).setEnd(Integer.parseInt(seq[10])).setScore(Quantity.class.newInstance().setValue(Double.parseDouble(seq[11])));
+           // sequence.addVariant().setStart(Integer.parseInt(seq[5])).setEnd(Integer.parseInt(seq[6])).setObservedAllele(seq[7]).setReferenceAllele(seq[8]);
+            //sequence.addQuality().setStart(Integer.parseInt(seq[9])).setEnd(Integer.parseInt(seq[10])).setScore(Quantity.class.newInstance().setValue(Double.parseDouble(seq[11])));
             sequence.setType(SeqType(seq[0]));
-            
-            sequence.setSpecimen(ref[0].setReference(spec[19]));
+            sequence.setCoordinateSystem(1);
+            sequence.setSpecimen(ref[1].setReference(spec[19]));
             sequence.setPatient(ref[0].setReference(patientID));
         }
         catch(Exception e)
@@ -227,7 +231,9 @@ public class ResourceManager {
         try{
         observation=new Observation();
         Reference ref= new Reference();
-        observation.addRelated().setTarget(ref.setReference(seq[19]));
+        //observation.addRelated().setTarget(ref.setReference(seq[19]));
+            observation.setStatus(ObservationStatus.FINAL);
+            observation.setCode(CodeableConcept.class.newInstance().addCoding(Coding.class.newInstance().setCode("29463-7")));
         }
          catch(Exception e)
         {
@@ -240,9 +246,17 @@ public class ResourceManager {
         try{
         diagnosticReport=new DiagnosticReport();
         Reference [] ref = new Reference[] { new Reference(),new Reference(),new Reference()};
+            diagnosticReport.addIdentifier().setValue(diag[0])
+            ;
         diagnosticReport.addSpecimen(ref[0].setReference(spec[19]));
         diagnosticReport.setSubject(ref[1].setReference(patientID));
         diagnosticReport.addResult(ref[2].setReference(obv[19]));
+            diagnosticReport.setStatus(DiagnosticReportStatus.FINAL);
+            diagnosticReport.setCode(CodeableConcept.class.newInstance().addCoding(Coding.class.newInstance().setCode("718-7")));
+            Date date = new Date();
+            System.out.println(date.toString());
+            diagnosticReport.setIssued(date);
+            diagnosticReport.setEffective(Period.class.newInstance().setStart(date));
         }
         catch(Exception e)
         {

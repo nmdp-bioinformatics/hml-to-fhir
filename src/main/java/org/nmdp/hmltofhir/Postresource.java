@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.model.primitive.IdDt;
 
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Bundle.*;
@@ -38,7 +37,7 @@ public class Postresource {
     public String sendResources() {
         FhirContext ctx = FhirContext.forDstu3();
         //change site once it is updated to DSTU3
-        IGenericClient client = ctx.newRestfulGenericClient("http://nmdp-fhir-dev.us-east-1.elasticbeanstalk.com/baseDstu2");
+        IGenericClient client = ctx.newRestfulGenericClient("http://fhirtest.uhn.ca/baseDstu3");
         //Create patient
         patient.addName().addFamily(patientFamilyName).addGiven(patientGivenName);
         if(patientGender.equals("MALE"))
@@ -75,7 +74,7 @@ public class Postresource {
         
         
         System.out.print("Parsing XML");
-        ResourceManager manager= new ResourceManager(xml,patient);
+        ResourceManager manager= new ResourceManager(xml,patientID);
         //Hopefully someone gets this reference
         //Replace "placeholder" with manager.resourceName.getId() its being  null right now for some reason
         //Add Resources to bundle
@@ -83,14 +82,19 @@ public class Postresource {
         bundle.setType(BundleType.TRANSACTION);
         System.out.println("Send Resources");
         bundle.addEntry().setFullUrl(patient.getId()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerb.POST);
-        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);
-        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.specimen).getRequest().setUrl("Specimen").setMethod(HTTPVerb.POST);
-        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.observation).getRequest().setUrl("Observation").setMethod(HTTPVerb.POST);
-        bundle.addEntry().setFullUrl("Placeholder").setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
         
-        //client.transaction().withBundle(bundle);
+        bundle.addEntry().setFullUrl(manager.seq[19]).setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);
+        
+        bundle.addEntry().setFullUrl(manager.spec[19]).setResource(manager.specimen).getRequest().setUrl("Specimen").setMethod(HTTPVerb.POST);
+        
+        bundle.addEntry().setFullUrl(manager.obv[19]).setResource(manager.observation).getRequest().setUrl("Observation").setMethod(HTTPVerb.POST);
+        
+        bundle.addEntry().setFullUrl(manager.diag[19]).setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
+        
+        
+        Bundle resp = client.transaction().withBundle(bundle).execute();
         //Return the hmlid so that they may use the GET function.
-        return manager.diag[0];
+            return manager.diag[0];
         }
     
 }
