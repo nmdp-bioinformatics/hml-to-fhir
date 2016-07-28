@@ -68,7 +68,8 @@ public class XMLParse {
 			sendResources(xmlDOM);
 
 		} catch (Exception e) {
-			System.out.println("Error in handle Grabbing " + e);
+            System.out.println("Error in handle Grabbing ");
+            e.printStackTrace();
 		}
 		//return null;
 	}
@@ -82,11 +83,9 @@ public class XMLParse {
             System.out.println("break");
             NamedNodeMap xmlAttribute = xmlAttributes.item(j).getAttributes();
             System.out.println("1 "+ xmlAttributes.item(j).getNodeName().toString());
-            System.out.println("2 "+getFirstLevelTextContent(xmlAttributes.item(j)));
             found=false;
 			for (int h = 0; h < xmlAttribute.getLength(); h++) {
                 System.out.println("3 "+xmlAttribute.item(h).toString());
-                System.out.println("4 "+xmlAttribute.item(h).getNodeValue());
                 for (int i = 0; i < resourceList.getLength(); i++) {
 					NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
                     

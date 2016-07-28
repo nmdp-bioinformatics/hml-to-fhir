@@ -103,20 +103,21 @@ public class Postresource {
         Bundle bundle= new Bundle();
         bundle.setType(BundleType.TRANSACTION);
         System.out.println("Send Resources");
+        //replace 0 with iterator going through size of array
         bundle.addEntry().setFullUrl(patient.getId()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerb.POST);
         
-        bundle.addEntry().setFullUrl(manager.seq[19]).setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);
+        bundle.addEntry().setFullUrl(manager.seq[0][19]).setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);
         
-        bundle.addEntry().setFullUrl(manager.spec[19]).setResource(manager.specimen).getRequest().setUrl("Specimen").setMethod(HTTPVerb.POST);
+        bundle.addEntry().setFullUrl(manager.spec[0][19]).setResource(manager.specimen).getRequest().setUrl("Specimen").setMethod(HTTPVerb.POST);
         
-        bundle.addEntry().setFullUrl(manager.obv[19]).setResource(manager.observation).getRequest().setUrl("Observation").setMethod(HTTPVerb.POST);
+        bundle.addEntry().setFullUrl(manager.obv[0][19]).setResource(manager.observation).getRequest().setUrl("Observation").setMethod(HTTPVerb.POST);
         
-        bundle.addEntry().setFullUrl(manager.diag[19]).setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
+        bundle.addEntry().setFullUrl(manager.diag[0][19]).setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
         
         
-       client.transaction().withBundle(bundle).execute();
+       //client.transaction().withBundle(bundle).execute();
         //Return the hmlid so that they may use the GET function.
-            return manager.diag[0];
+            return manager.diag[0][0];
         }
     
 }

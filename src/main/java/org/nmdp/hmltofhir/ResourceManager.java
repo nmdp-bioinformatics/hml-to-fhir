@@ -70,10 +70,11 @@ public class ResourceManager {
     private static String xml;
     private static String patientID;
     private static Document resourceTemplate;
-    public static String [] seq = new String[20];
-    public static String [] spec = new String[20];
-    public static String [] obv = new String [20];
-    public static String [] diag = new String [20];
+    public static String [][] seq = new String[20][20];
+    public static String [][] spec = new String[20][20];
+    public static String [][] obv = new String [20][20];
+    public static String [][] diag = new String [20][20];
+    private static int iteration = 0;
     public ResourceManager(String xml,String patientID)
     {
         parse= new XMLParse(xml,this);
@@ -109,7 +110,7 @@ public class ResourceManager {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
                 if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
-                    seq[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
+                    seq[iteration][Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                     }
                 
             }
@@ -123,7 +124,7 @@ public class ResourceManager {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
                 if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
-                    spec[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
+                    spec[iteration][Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                 }
                    
                    }
@@ -138,7 +139,7 @@ public class ResourceManager {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
                 if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
-                    obv[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
+                    obv[iteration][Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                 }
                    
                    }
@@ -151,7 +152,7 @@ public class ResourceManager {
                 NamedNodeMap positionAttribute = positionList.item(i).getAttributes();
                 if(node.equals(parse.getAttribute(positionAttribute,"node"))&&structure.equals(parse.getAttribute(positionAttribute,"structure"))&&resource.equals(parse.getAttribute(positionAttribute,"resource"))&&lower.equals(parse.getAttribute(positionAttribute,"lowerStructure")))
                    {
-                    diag[Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
+                    diag[iteration][Integer.parseInt(parse.getAttribute(positionAttribute,"position"))]=isNotNull(value);
                 }
                    
                    }
@@ -168,10 +169,10 @@ public class ResourceManager {
         System.out.println("Making resources");
         try{
             //Make identifiers
-        spec[19]="urn:uuid:"+UUID.randomUUID().toString();
-        seq[19]="urn:uuid:"+UUID.randomUUID().toString();
-        diag[19]="urn:uuid:"+UUID.randomUUID().toString();
-        obv[19]="urn:uuid:"+UUID.randomUUID().toString();
+        spec[iteration][19]="urn:uuid:"+UUID.randomUUID().toString();
+        seq[iteration][19]="urn:uuid:"+UUID.randomUUID().toString();
+        diag[iteration][19]="urn:uuid:"+UUID.randomUUID().toString();
+        obv[iteration][19]="urn:uuid:"+UUID.randomUUID().toString();
         newSpecimen();
         newSequence();
         newObservation();
@@ -196,7 +197,7 @@ public class ResourceManager {
             specimen=new Specimen();
             Reference[] ref = new Reference[]{new Reference()};
             ref[0].setReference(patientID);
-            specimen.setCollection(SpecimenCollectionComponent.class.newInstance().setMethod(CodeableConcept.class.newInstance().setText(isNotNull(spec[0]))));
+            specimen.setCollection(SpecimenCollectionComponent.class.newInstance().setMethod(CodeableConcept.class.newInstance().setText(isNotNull(spec[iteration][0]))));
             specimen.setSubject(ref[0]);
         }
         catch(Exception e)
@@ -210,14 +211,14 @@ public class ResourceManager {
         try{
             sequence=new Sequence();
             Reference [] ref = new Reference[]{new Reference(),new Reference()};
-            sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(isNotNullInt(seq[1])).setWindowEnd(isNotNullInt(seq[2])).setReferenceSeqString(isNotNull(seq[3])));
-            sequence.setObservedSeq(isNotNull(seq[4]));
-            sequence.addVariant().setStart(isNotNullInt(seq[5])).setEnd(isNotNullInt(seq[6])).setObservedAllele(isNotNull(seq[7])).setReferenceAllele(isNotNull(seq[8]));
-            sequence.addQuality().setStart(isNotNullInt(seq[9])).setEnd(isNotNullInt(seq[10])).setScore(Quantity.class.newInstance().setValue(isNotNullDouble(seq[11])));
-            sequence.setType(SeqType(isNotNull(seq[0])));
+            sequence.setReferenceSeq(SequenceReferenceSeqComponent.class.newInstance().setWindowStart(isNotNullInt(seq[iteration][1])).setWindowEnd(isNotNullInt(seq[iteration][2])).setReferenceSeqString(isNotNull(seq[iteration][3])));
+            sequence.setObservedSeq(isNotNull(seq[iteration][4]));
+            sequence.addVariant().setStart(isNotNullInt(seq[iteration][5])).setEnd(isNotNullInt(seq[iteration][6])).setObservedAllele(isNotNull(seq[iteration][7])).setReferenceAllele(isNotNull(seq[iteration][8]));
+            sequence.addQuality().setStart(isNotNullInt(seq[iteration][9])).setEnd(isNotNullInt(seq[iteration][10])).setScore(Quantity.class.newInstance().setValue(isNotNullDouble(seq[iteration][11])));
+            sequence.setType(SeqType(isNotNull(seq[iteration][0])));
             sequence.setCoordinateSystem(1);
             
-            sequence.setSpecimen(ref[1].setReference(spec[19]));
+            sequence.setSpecimen(ref[1].setReference(spec[iteration][19]));
             sequence.setPatient(ref[0].setReference(patientID));
         }
         catch(Exception e)
@@ -264,11 +265,11 @@ public class ResourceManager {
         try{
         diagnosticReport=new DiagnosticReport();
         Reference [] ref = new Reference[] { new Reference(),new Reference(),new Reference()};
-            diagnosticReport.addIdentifier().setValue(isNotNull(diag[0]))
+            diagnosticReport.addIdentifier().setValue(isNotNull(diag[iteration][0]))
             ;
-        diagnosticReport.addSpecimen(ref[0].setReference(spec[19]));
+        diagnosticReport.addSpecimen(ref[0].setReference(spec[iteration][19]));
         diagnosticReport.setSubject(ref[1].setReference(patientID));
-        diagnosticReport.addResult(ref[2].setReference(obv[19]));
+        diagnosticReport.addResult(ref[2].setReference(obv[iteration][19]));
             diagnosticReport.setStatus(DiagnosticReportStatus.FINAL);
             diagnosticReport.setCode(CodeableConcept.class.newInstance().addCoding(Coding.class.newInstance().setCode("718-7")));
             Date date = new Date();
@@ -285,6 +286,8 @@ public class ResourceManager {
     }
     
     //Since Parse is old and cant accept null I made my own for parseing Ints and Doubles
+    //When you make a structure is NEEDS to call one of these or make a new one depending on the object needed, HAPI doesnt do well with null statements so it is eaiser to make default values
+    //If/when you make a default value update table.html with this and the explination.
     public static String isNotNull(String value)
     {
         System.out.println(value);
@@ -297,6 +300,13 @@ public class ResourceManager {
     public static Double isNotNullDouble(String value)
     {System.out.println(value);
         return(value==null)||(value.equals(""))?-400:Double.parseDouble(value);
+    }
+    /**
+     This method is called when we reach the end of a block telling us to start a new resource
+     **/
+    public static void iterate()
+    {
+        iteration++;
     }
 
     
