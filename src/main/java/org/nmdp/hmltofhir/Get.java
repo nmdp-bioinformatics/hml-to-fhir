@@ -47,7 +47,7 @@ public class Get {
     public Get(String id) {
         this.id=id;
     }
-    //id will be created in the POST method
+    //id will be created in the POST method and is from the HML's hmlid
     public String search() {
         FhirContext ctx = FhirContext.forDstu3();
         String baseSite= "http://fhirtest.uhn.ca/baseDstu3/";
@@ -58,6 +58,7 @@ public class Get {
         DiagnosticReport diag =(DiagnosticReport)bundle.getEntry().get(0).getResource();
         //When there are more references, loop through the list for each one and add to ubundle in loop
         Observation obv = client.read().resource(Observation.class).withUrl(baseSite+diag.getResult().get(0).getReference()).execute();
+        //Uncomment when HAPI 2.0 comes out
         //Sequence seq = client.read().resource(Sequence.class).withUrl(baseSite+obv.getRelated().get(0).getTarget()).execute();
         Specimen spec = client.read().resource(Specimen.class).withUrl(baseSite+diag.getSpecimen().get(0).getReference()).execute();
         Patient patient=client.read().resource(Patient.class).withUrl(baseSite+diag.getSubject().getReference()).execute();
@@ -65,11 +66,12 @@ public class Get {
         Bundle finalbundle=new Bundle();
         bundle.addEntry().setResource(diag);
         bundle.addEntry().setResource(obv);
+        //Uncomment when HAPI 2.0 comes out
         //bundle.addEntry().setResource(seq);
         bundle.addEntry().setResource(spec);
         bundle.addEntry().setResource(patient);
         
-        
+        // Converts bundle to string for text area
         System.out.println("Bundle....bundled...sigh");
         String finalBundle=ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
         System.out.println(finalBundle);

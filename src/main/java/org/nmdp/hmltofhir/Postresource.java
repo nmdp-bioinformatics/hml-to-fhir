@@ -53,12 +53,10 @@ public class Postresource {
         this.patientBirth=data[3];
         this.patientID="urn:uuid:"+UUID.randomUUID().toString();
         this.xml=data[4];
-        
-        //Make this string array 0-n is patient data n+1 is the xml
     }
     public String sendResources() {
         FhirContext ctx = FhirContext.forDstu3();
-        //change site once it is updated to DSTU3
+        //change server once fhirtest.b12x.org is updated to DSTU3
         IGenericClient client = ctx.newRestfulGenericClient("http://fhirtest.uhn.ca/baseDstu3");
         //Create patient
         patient.addName().addFamily(patientFamilyName).addGiven(patientGivenName);
@@ -81,8 +79,7 @@ public class Postresource {
         else{
             patient.setGender(null);
         }
-        
-        //Not working skip for now String->DateDt
+
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date undate = df.parse(patientBirth);
@@ -103,7 +100,7 @@ public class Postresource {
         Bundle bundle= new Bundle();
         bundle.setType(BundleType.TRANSACTION);
         System.out.println("Send Resources");
-        //replace 0 with iterator going through size of array
+        //replace 0 with iterator going through size of array once that is set up
         bundle.addEntry().setFullUrl(patient.getId()).setResource(patient).getRequest().setUrl("Patient").setMethod(HTTPVerb.POST);
         
         bundle.addEntry().setFullUrl(manager.seq[0][19]).setResource(manager.sequence).getRequest().setUrl("Sequence").setMethod(HTTPVerb.POST);

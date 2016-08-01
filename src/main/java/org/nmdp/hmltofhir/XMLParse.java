@@ -71,7 +71,6 @@ public class XMLParse {
             System.out.println("Error in handle Grabbing ");
             e.printStackTrace();
 		}
-		//return null;
 	}
 /* iterates through the the HML and compares all nodes and attributes to ResourceName.xml*/
 	private void sendResources(Document xmlDOM) {
@@ -79,6 +78,16 @@ public class XMLParse {
 		NodeList xmlAttributes = xmlDOM.getElementsByTagName("*");//Gets All nodes
         boolean found = false;
         int j=0;
+        /*
+         ResouceName node looks like this
+         node
+         attribute
+         resource
+         structure
+         lowerStructure
+         position
+         */
+
 		for (j = 0; j < xmlAttributes.getLength(); j++) {
             System.out.println("break");
             NamedNodeMap xmlAttribute = xmlAttributes.item(j).getAttributes();
@@ -106,12 +115,6 @@ public class XMLParse {
         for (int i = 0; i < resourceList.getLength(); i++) {
             NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
             
-            //What should be in the resource XML
-            //Node
-            // Attribute
-            //Resource
-            //Structure
-            //Lowerstructure(if none then make empty make this optional
             if(j>0&&!found&&(xmlAttributes.item(j-1).getNodeName().equals(getAttribute(resourceAttribute,"node")))&& (getAttribute(resourceAttribute,"attribute")==null)){//If a Node text content matches the needs a resource
                 found=true;
                 System.out.println("found node");
@@ -119,11 +122,15 @@ public class XMLParse {
                 
             }
         }
-
+        //this needs to be positioned or reworked
+        //resources.iterate()
         resources.createResources();
 
 	}
-
+/*
+ Converts the xml document to a string
+ */
+ 
 	public String xmlToString(String string) {
 
 		try {
@@ -148,14 +155,17 @@ public class XMLParse {
 		return null;
 
 	}
-
+/*Gets attribute from ResourceName.xml
+ */
 	public static String getAttribute(NamedNodeMap resourceAttributes, String attributeName) {
 		Node resource = resourceAttributes.getNamedItem(attributeName);
         
 		String foundAttribute = resource != null ? resource.getNodeValue() : null;
         return foundAttribute;
 	}
-    
+    /*
+     Gets the text content from a node
+     */
     public static String getFirstLevelTextContent(Node node) {
         NodeList list = node.getChildNodes();
         StringBuilder textContent = new StringBuilder();
@@ -166,6 +176,7 @@ public class XMLParse {
         }
         return textContent.toString();
     }
+    //If a more primative structure exists based on HL7 fhir resources and resourceName.xml
     public static String ifLowerExists(String value)
     {
         return ((value==null)||(value.equals("")))?"null":value;

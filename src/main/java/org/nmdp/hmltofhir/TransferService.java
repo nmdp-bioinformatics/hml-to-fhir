@@ -62,7 +62,7 @@ public class TransferService {
                 throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
             }
             
-            // display response
+            // display response to server
             String output = response.getEntity(String.class);
             System.out.println("Output from Server .... ");
             System.out.println(output + "\n");
@@ -102,8 +102,8 @@ public class TransferService {
 		System.out.println("Post");
         String [] data=structureArr.toArray(new String[0]);
        // Put put = new Put(data[1],data[2],data[3],data[0]);
-        //put.update();
-		return "catdog";
+        //String update =  put.update();
+		return "update";
 	}
 }
 
