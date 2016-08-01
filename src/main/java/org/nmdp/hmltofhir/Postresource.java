@@ -115,7 +115,7 @@ public class Postresource {
         bundle.addEntry().setFullUrl(manager.diag[0][19]).setResource(manager.diagnosticReport).getRequest().setUrl("Diagonostic-Report").setMethod(HTTPVerb.POST);
         
         
-       //client.transaction().withBundle(bundle).execute();
+       client.transaction().withBundle(bundle).execute();
         //Return the hmlid so that they may use the GET function.
             return manager.diag[0][0];
         }

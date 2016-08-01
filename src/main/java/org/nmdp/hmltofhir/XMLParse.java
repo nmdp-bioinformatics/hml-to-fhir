@@ -55,7 +55,7 @@ public class XMLParse {
 		this.xml = xml;
         this.resources=resources;
 	}
-
+/* Simple function to call the parser*/
 	public void grab() {
 		System.out.println("Getting addtional resources from HML");
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -73,7 +73,7 @@ public class XMLParse {
 		}
 		//return null;
 	}
-
+/* iterates through the the HML and compares all nodes and attributes to ResourceName.xml*/
 	private void sendResources(Document xmlDOM) {
 		NodeList resourceList = resourceTemplate.getElementsByTagName("resourceName");
 		NodeList xmlAttributes = xmlDOM.getElementsByTagName("*");//Gets All nodes

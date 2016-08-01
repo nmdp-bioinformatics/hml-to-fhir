@@ -83,13 +83,11 @@ public class ResourceManager {
         parse.grab();
     }
 
-     
+     /** Adds resource to specified resource array based on pre-determined position numbers in ResourceName.xml
+      @param node: Node in HML value belongs to; resource: Resource it will be mapped to; structure: structure it belongs to; lower: (if applicable) the more primative data type; value: the value
+      */
 	public static void addResource(String node,String resource,String structure,String lower, String value) {
-        /*
-         Change these arrays to arrays of linked lists
-         This allows for multiple of any structure to beb allowed
-         */
-        
+        //Can we move this to the contructor to reduce the number of objects being made? Lets try it
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {
@@ -163,6 +161,9 @@ public class ResourceManager {
         }
 				
 	}
+    /* 
+     Creates UUID's for referencing and calls the resource creators
+     */
     public static void createResources()
     {
         //Call all methods
@@ -185,11 +186,11 @@ public class ResourceManager {
         }
         
     }
+    /* Makes resources based of addResource results
+     */
+    //When a proper iteration is found, loop through each newresource for all of the first dimension of array
     public static void newSpecimen()
-    {                 //Appies for all resources
-                    //Make an array of the resources with size of length of longest linked list in linked list array
-                    //Specimen.addwhatever in a for loop through linked lists do a hard set at 10 but can change
-                    //loop through linked list if it hits a null it doesnt matter'
+    {
         System.out.println("In Specimen");
         try{
             
@@ -250,6 +251,7 @@ public class ResourceManager {
         try{
         observation=new Observation();
         Reference ref= new Reference();
+            //Uncomment when HAPI 2.0 comes out. This update allows for observation to reference sequence
         //observation.addRelated().setTarget(ref.setReference(seq[19]));
             observation.setStatus(ObservationStatus.FINAL);
             observation.setCode(CodeableConcept.class.newInstance().addCoding(Coding.class.newInstance().setCode("29463-7")));
@@ -288,6 +290,7 @@ public class ResourceManager {
     //Since Parse is old and cant accept null I made my own for parseing Ints and Doubles
     //When you make a structure is NEEDS to call one of these or make a new one depending on the object needed, HAPI doesnt do well with null statements so it is eaiser to make default values
     //If/when you make a default value update table.html with this and the explination.
+    /*Default values if null is entered due to HAPI's disliking to null statements this may be updated and fixed in the future */
     public static String isNotNull(String value)
     {
         System.out.println(value);
