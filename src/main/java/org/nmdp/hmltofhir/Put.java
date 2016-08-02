@@ -39,11 +39,18 @@ public class Put {
 	private String current;
     private String update;
     private String resource;
+    private String lower;
+    public static DiganosticReport diag;
+    public static ObservationReport obv;
+    public static Specimen spec;
+    public static Patient patient;
+    public static Sequence seq;
 
-	public Put(String structure, String update, String resource) {
+	public Put(String structure, String lower, String update, String resource) {
         this.current=structure;
         this.update=update;
         this.resource = resource;
+        this.lower=lower;
 	}
 
 	public void update() {
@@ -54,21 +61,25 @@ public class Put {
         //set id as ("patient/"+ patientID)
         // public void Sequence(structure, update
          {
-        //Patient ID .getID
-        //.set ID
-        //How each method is going to be
-        //Squence.getID
-        //Sequence[0]=Sequence.getwhateve
-        //Rinse Repeat
-        //Sequence[position number]=updated thing
-        //set id
-        //String to whatever is needed write these in resource manager
+        //Sequence updateseq=new Sequence()
+         updateseq.setStructures(seq.getStructures())
+         //Needs to have same ID to update
+         updateseq.setId(seq.getId())
+         //set id
          //"Create" a new resource with structures
         //client.update().resource(sequence).execute();
          }*/
         
 		
 	}
+    public void resources(DiagnosticReport diag, Observation obv, Specimen spec,Patient patient,Sequence seq)
+    {
+        this.diag=diag;
+        this.obv=obv;
+        this.spec=spec;
+        this.patient=patient;
+        this.seq=seq;
+    }
     
 		
 

@@ -43,6 +43,7 @@ import com.sun.jersey.api.client.WebResource;
 
 @Path( "/toFHIR")
 public class TransferService {
+    public static Get get;
 	Logger logger = LoggerFactory.getLogger(Client.class);
 	private String cmdXML;
 	@POST
@@ -88,7 +89,7 @@ public class TransferService {
 	public String toGET(@FormParam("id")  String id)
 	{
 		System.out.println("Attempting to Get ID#= "+ id);
-		Get get = new Get(id);
+		get = new Get(id);
 		String bundleXML=get.search();
 		
 		return bundleXML;
@@ -101,8 +102,8 @@ public class TransferService {
 	{
 		System.out.println("Post");
         String [] data=structureArr.toArray(new String[0]);
-       // Put put = new Put(data[1],data[2],data[3],data[0]);
-        //String update =  put.update();
+        Put put = new Put(data[1],data[2],data[3],data[0]);
+        get.update(put);
 		return "update";
 	}
 }

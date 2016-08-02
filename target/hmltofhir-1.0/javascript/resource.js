@@ -38,10 +38,12 @@ function Post()
                          {
                          var post = window.location.href + "transfer/toFHIR/POST";
                          var names = [document.getElementById("patientFamilyName").value,document.getElementById("patientGivenName").value,document.getElementById("patientGender").value,document.getElementById("patientDate").value,xml];
+                         //Verifies bday is correct format
                          if(!/([0-9]{4}-[0-9]{2}-[0-9]{2})/.test(names[3]))
                          {
                          alert("Date not entered properly, please enter in yyyy-MM-dd format");
                          }
+                         //Makes sure forms are filled
                          else if(names[0]==""||names[2]==""||names[1]==""||names[4]=="")
                          {
                          alert("Please fill out all forms. HML not processed");
@@ -90,7 +92,8 @@ function Post()
 function Get()
 {
     var get = window.location.href + "transfer/toFHIR/GET/";
-    var id = document.getElementById("patientIDGET").value;
+    var id = document.getElementById("patientIDGET").value;'
+    //Makes sure there is an ID entered'
     if(id=="")
     {
         alert("No ID entered: Please enter an ID")
