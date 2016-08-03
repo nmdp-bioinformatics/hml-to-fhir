@@ -45,6 +45,11 @@ public class Put {
     public static Specimen spec;
     public static Patient patient;
     public static Sequence seq;
+    public static String [][] pat;
+    public static String [][] sequence;
+    public static String [][] diagnostic;
+    public static String [][] observation;
+    public static String [][]specimen;
 
 	public Put(String structure, String lower, String update, String resource) {
         this.current=structure;
@@ -54,22 +59,19 @@ public class Put {
 	}
 
 	public void update() {
-        //client.read gets a resource but still need the ID
-        /* if( resource.equals(resourceName)
+        //Need a way to KNOW which resource they want to update...cant update all of em.
+         if( resource.equals("Patient"))
          {
-         
-        //set id as ("patient/"+ patientID)
-        // public void Sequence(structure, update
-         {
-        //Sequence updateseq=new Sequence()
-         updateseq.setStructures(seq.getStructures())
-         //Needs to have same ID to update
-         updateseq.setId(seq.getId())
-         //set id
-         //"Create" a new resource with structures
-        //client.update().resource(sequence).execute();
-         }*/
-        
+             Patient updatePat=new Patient();
+             //recreate array of resource
+             //do as post in resource manager
+             //for and if resourceName.xml matches
+             //patientarray[Interger.parseInt(getattribute(position,"position")=update;
+             //setstructures
+             //updatePat.setID(patient.getID());
+             //client.update().resource(patient).execute();
+             
+         }
 		
 	}
     public void resources(DiagnosticReport diag, Observation obv, Specimen spec,Patient patient,Sequence seq)
