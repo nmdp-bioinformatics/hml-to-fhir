@@ -91,8 +91,9 @@ function Post()
 }
 function Get()
 {
+    document.getElementById("resultsText").readOnly="false";
     var get = window.location.href + "transfer/toFHIR/GET/";
-    var id = document.getElementById("patientIDGET").value;'
+    var id = document.getElementById("patientIDGET").value;
     //Makes sure there is an ID entered'
     if(id=="")
     {
@@ -104,6 +105,7 @@ function Get()
                             function(response)
                             {
                             document.getElementById("resultsText").value = response;
+                            document.getElementById("resultsText").readOnly="true";
                             })
         .done(function()
               {

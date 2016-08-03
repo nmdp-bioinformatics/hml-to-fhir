@@ -40,8 +40,8 @@ public class Put {
     private String update;
     private String resource;
     private String lower;
-    public static DiganosticReport diag;
-    public static ObservationReport obv;
+    public static DiagnosticReport diag;
+    public static Observation obv;
     public static Specimen spec;
     public static Patient patient;
     public static Sequence seq;
@@ -49,7 +49,7 @@ public class Put {
     public static String [][] sequence;
     public static String [][] diagnostic;
     public static String [][] observation;
-    public static String [][]specimen;
+    public static String [][] specimen;
 
 	public Put(String structure, String lower, String update, String resource) {
         this.current=structure;
@@ -57,9 +57,11 @@ public class Put {
         this.resource = resource;
         this.lower=lower;
 	}
-
+/*
+ Updates the resource based on user chosen. Should we have this? Could be dangerous for false manipulation?
+ */
 	public void update() {
-        //Need a way to KNOW which resource they want to update...cant update all of em.
+        //Need a way to KNOW which resource of the same type. LLike the 2nd sequence they want to update...cant update all of em.
          if( resource.equals("Patient"))
          {
              Patient updatePat=new Patient();
