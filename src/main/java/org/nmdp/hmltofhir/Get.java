@@ -80,7 +80,6 @@ public class Get {
         // Converts bundle to string for text area
         System.out.println("Bundle....bundled...sigh");
         String finalBundle=ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
-        System.out.println(finalBundle);
         return finalBundle;
     }
     public void update(Put put)

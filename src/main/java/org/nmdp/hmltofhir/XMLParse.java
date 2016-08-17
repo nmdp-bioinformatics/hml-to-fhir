@@ -91,10 +91,8 @@ public class XMLParse {
 		for (j = 0; j < xmlAttributes.getLength(); j++) {
             System.out.println("break");
             NamedNodeMap xmlAttribute = xmlAttributes.item(j).getAttributes();
-            System.out.println("1 "+ xmlAttributes.item(j).getNodeName().toString());
             found=false;
 			for (int h = 0; h < xmlAttribute.getLength(); h++) {
-                System.out.println("3 "+xmlAttribute.item(h).toString());
                 for (int i = 0; i < resourceList.getLength(); i++) {
 					NamedNodeMap resourceAttribute = resourceList.item(i).getAttributes();//All attributes within the node
                     

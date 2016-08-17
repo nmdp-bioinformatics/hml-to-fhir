@@ -65,8 +65,6 @@ public class TransferService {
             
             // display response to server
             String output = response.getEntity(String.class);
-            System.out.println("Output from Server .... ");
-            System.out.println(output + "\n");
             return output;
         } catch (Exception e) {
             e.printStackTrace();

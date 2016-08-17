@@ -1,0 +1,9 @@
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:09:22:07 -0500] "GET /HMLtoFHIR/ HTTP/1.1" 200 8717 http-bio-8080-exec-4 7
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:09:22:07 -0500] "GET /HMLtoFHIR/javascript/resource.js HTTP/1.1" 304 - http-bio-8080-exec-4 3
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:09:22:08 -0500] "GET /HMLtoFHIR/nmdp.png HTTP/1.1" 304 - http-bio-8080-exec-4 1
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:09:22:08 -0500] "GET /HMLtoFHIR/BTM.png HTTP/1.1" 304 - http-bio-8080-exec-6 2
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:09:57:28 -0500] "GET / HTTP/1.1" 404 - http-bio-8080-exec-2 0
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:10:16:56 -0500] "GET /HMLtoFHIR/ HTTP/1.1" 200 8717 http-bio-8080-exec-1 1
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:10:16:56 -0500] "GET /HMLtoFHIR/javascript/resource.js HTTP/1.1" 200 8436 http-bio-8080-exec-1 0
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:10:16:56 -0500] "GET /HMLtoFHIR/nmdp.png HTTP/1.1" 200 53883 http-bio-8080-exec-1 1
+0:0:0:0:0:0:0:1 - - [17/Aug/2016:10:16:56 -0500] "GET /HMLtoFHIR/BTM.png HTTP/1.1" 200 18069 http-bio-8080-exec-5 0
